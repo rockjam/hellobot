@@ -108,7 +108,7 @@ public class TicTacToe implements Game {
     return !(x > MAX_INDEX || x < 0 || y > MAX_INDEX || y < 0 || field[x][y] != '-');
   }
 
-  final class TicTacToeState {
+  public final class TicTacToeState {
     private final GameState state;
     private final char[][] field;
     private String winner;
@@ -120,6 +120,10 @@ public class TicTacToe implements Game {
 
     public boolean isPlay() {
       return state == GameState.PLAY;
+    }
+
+    public char[][] getField() {
+      return field;
     }
   }
 

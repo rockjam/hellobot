@@ -1,6 +1,8 @@
 package gamelogic.tictactoe;
 
-public class GameExecutor {
+import play.jobs.Job;
+
+public class GameExecutor extends Job {
 
   public void playGame(TicTacToe game) {
 
