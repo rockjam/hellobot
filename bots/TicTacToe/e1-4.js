@@ -1,5 +1,3 @@
-//Simplest Strategy – Heuristic Preferences via Table Lookup
-
 var EMPTY = '-';
 var preferredMoves =
     [
@@ -9,12 +7,11 @@ var preferredMoves =
 
 function makeMove(field, my) {
 
-    for (move in preferredMoves) {
+    var i;
+    for (i = 0; i < preferredMoves.length; ++i) {
+        var move = preferredMoves[i];
         if (field[move[0]][move[1]] == EMPTY) {
             return move;
         }
     }
-
-    //The field is full. Should not reach here
-    return [0,0];
 }

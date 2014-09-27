@@ -31,14 +31,14 @@ public class Hour1 extends Assert {
 
   @Test
   public void bot1_test() throws Exception {
-    char[][] field = {
-        {'-', '-', '-'},
-        {'-', '-', '-'},
-        {'-', '-', '-'}
+    String[][] field = {
+        {"-", "-", "-"},
+        {"-", "-", "-"},
+        {"-", "-", "-"}
     };
     Bot dummy = BotCreation.createBot("dummyBot.js");
 
-    int[] move = dummy.makeMove(field, 'x');
+    int[] move = dummy.makeMove(field, "x");
     int[] expected = {0, 0};
     assertThat(move, is(expected));
   }
