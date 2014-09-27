@@ -2,6 +2,13 @@
 #{set title:'Home' /}
 
 <script>
+    var krest = new Image(94, 94);
+    krest.src = '/public/images/krest.png';
+    var zero = new Image(94, 94);
+    zero.src = '/public/images/null.png';
+    var dummy = new Image(94, 94);
+    dummy.src = '/public/images/empty.png'
+
     $(function () {
                 var socket = new WebSocket("ws://localhost:9000/games/ticTacToe");
 
@@ -16,10 +23,20 @@
                     var table = $("#game-pole")[0];
                     for (var i = 0; i < field.length; i++) {
                         for (var j = 0; j < field[i].length; j++) {
-                            var symbol = field[i][j] == '-' ? ' ' : field[i][j];
-                            console.log(field[i][j]);
-                            table.rows[i].cells[j].innerHTML = symbol;
+                            var myImage = new Image(94, 94);
+                            if (field[i][j] == '-') {
+                                myImage.src = '/public/images/empty.png';
+                            } else if (field[i][j] == 'o') {
+                                myImage.src = '/public/images/null.png';
+                            } else {
+                                myImage.src = '/public/images/krest.png';
+                            }
+                            $(table.rows[i].cells[j]).empty();
+                            table.rows[i].cells[j].appendChild(myImage);
                         }
+                    }
+                    if (object.state == 'OVER') {
+                        $('.result').html('Игра окончена');
                     }
                 }
             }
@@ -46,3 +63,4 @@
         </tr>
     </table>
 </div>
+<div class="result"></div>

@@ -4,7 +4,7 @@
 }
 
 body {
-    font-family: 'Ubuntu Mono';
+    font-family: sans-serif, 'Ubuntu Mono';
     font-size: 14px ;
     background-color: #E0E0E0;
 }
@@ -24,12 +24,16 @@ ul.hr {
 ul.hr li {
     display: inline;
     margin-right: 5px;
-    padding: 3px;
     text-shadow: 0.1em 0.1em 0.2em black;
+    font-size: 32px;
+    padding: 5px 70px;
 }
 
 ul.hr li a, ul.hr li a:hover, ul.hr li a:active, ul.hr li a:focus {
     text-decoration: none;
+}
+
+ul.hr li a, ul.hr li a:hover, ul.hr li a:active, ul.hr li a:focus, nav, footer {
     color: #fff;
 }
 
@@ -39,10 +43,8 @@ header {
 nav, footer {
     background-color: #5967CF;
 }
-nav {
+nav, footer {
    padding: 8px 10px;
-    color: #fff;
-    border-radius: 5px;
 }
 
 #container {
@@ -73,9 +75,10 @@ article {
 
 .zag {
     font-size: 17px;
+}
+.zag, .result {
     font-weight: 800;
 }
-
 a#register, a#login {
     color:#000;
 }
@@ -84,20 +87,46 @@ a#register, a#login {
     max-width: 60px;
 }
 
-.game-pole {
-    width: 180px;
-    height: 180px;
-}
-
-.cross {
-    background-image: url(/public/images/krest.png) ;
-}
-
-.null {
-    background-image: url(/public/images/null.png) ;
+#game-pole {
+    width: 500px;
+    height: 500px;
+    border-radius: 5px;
+    border-collapse: collapse;
 }
 
 #game-pole td{
-    width: 60px;
-    height: 60px;
+    width: 94px;
+    height: 94px;
+    padding: 0;
+    text-align: center;
+}
+
+#field {
+    width: 500px;
+    background: url(/public/images/bord.png) no-repeat;
+    border-radius: 20px;
+}
+
+
+#field img {
+    padding: 2px;
+}
+
+#field, .result {
+    margin: 0 auto;
+    position: relative;
+}
+.result {
+    width: 116px;
+    padding-top: 11px;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.right {
+    float:right;
+}
+
+footer {
+    height: 30px;
 }
