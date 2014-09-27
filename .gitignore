@@ -3,6 +3,9 @@
 *.war
 *.ear
 /out
+/tmp
 *.iml
 *.ipr
 *.iws
+/db
+/.idea
