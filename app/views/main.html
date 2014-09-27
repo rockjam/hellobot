@@ -31,35 +31,7 @@
                         });
                 return false;
             });
-
-            $("#create_bot").click(function() {
-                $.get(
-                        "@@{Application.create_bot()}",
-                        {},
-                        function(e) {
-                            $("article").html(e);
-                        });
-                return false;
             });
-            $("#faq").click(function() {
-                $.get(
-                        "@@{Application.faq()}",
-                        {},
-                        function(e) {
-                            $("article").html(e);
-                        });
-                return false;
-            });
-            $("#translation").click(function() {
-                $.get(
-                        "@@{Application.translation()}",
-                        {},
-                        function(e) {
-                            $("article").html(e);
-                        });
-                return false;
-            });
-        });
     </script>
 #{get 'moreScripts' /}
 </head>
@@ -80,16 +52,15 @@
     <nav>
 
         <ul class="hr">
-            <li><a href="#" id="index">#</a></li>
-            <li><a href="#" id="create_bot">Создать бота</a></li>
-            <li><a href="#" id="translation">Трансляции</a></li>
-            <li><a href="#" id="faq">FAQ</a></li>
+            <li class="home"><a href="@{Application.index()}" id="index"></a></li>
+            <li><a href="@{Upload.addBotForm()}" id="create_bot">Создать бота</a></li>
+            <li><a href="@{Application.translation()}" id="translation">Трансляции</a></li>
+            <li><a href="@{Application.faq()}" id="faq">FAQ</a></li>
         </ul>
     </nav>
-    <article>#{doLayout /}
-    </article>
+    <article>#{doLayout /}</article>
     <footer>
-        <div class="right">©Разработано на HackDay#32</div>
+        <div class="right">© Разработано на HackDay#32</div>
     </footer>
 </div>
 </body>
