@@ -2,16 +2,35 @@ package controllers;
 
 import com.google.gson.Gson;
 import gamelogic.tictactoe.TicTacToe;
+import models.Bot;
+import play.libs.F;
+import play.mvc.Http;
 import play.mvc.WebSocketController;
+
+import static play.libs.F.Matcher.Equals;
+import static play.mvc.Http.WebSocketEvent.TextFrame;
 
 public class Games extends WebSocketController {
 
   public static void ticTacToe() {
-//    while (inbound.isOpen()) {
-    TicTacToe game = new TicTacToe();
-    game.init("testBot1.js", "testBot2.js");
 
+    F.Tuple<Long, Long> ids = new F.Tuple<>(null, null);
+    boolean read = true;
+    while (inbound.isOpen() && read) {
+      Http.WebSocketEvent e = await(inbound.nextEvent());
+      for (String id : TextFrame.match(e)) {
+        Long l = Long.parseLong(id);
+        if (ids._1 != null && ids._2 == null) {
+          ids = new F.Tuple<>(ids._1, l);
+          read = false;
+        }
+        if (ids._1 == null) {
+          ids = new F.Tuple<>(l, null);
+        }
+      }
+    }
 
+    TicTacToe game = new TicTacToe(ids._1, ids._2);
     TicTacToe.TicTacToeState state = null;
     do {
       state = game.step();

@@ -17,6 +17,11 @@
                     showMessage(incomingMessage);
                 };
 
+                socket.onopen = function() {
+                    socket.send('${firstId}');
+                    socket.send('${secondId}');
+                };
+
                 function showMessage(message) {
                     var object = JSON.parse(message);
                     var field = object.field;

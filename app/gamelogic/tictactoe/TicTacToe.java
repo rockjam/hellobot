@@ -26,23 +26,25 @@ public class TicTacToe implements Game {
 
   private F.Tuple<Player, Player> turns;
 
-  public TicTacToe(char[][] field) {
+  public TicTacToe(char[][] field, Long botId1, Long botId2) {
     this.field = field;
-
+    this.first = new Player('x', botId1);
+    this.second = new Player('o', botId2);
+    this.turns = new F.T2<>(first, second);
   }
 
-  public TicTacToe() {
+  public TicTacToe(Long botId1, Long botId2) {
     this(new char[][]{
         {'-', '-', '-'},
         {'-', '-', '-'},
         {'-', '-', '-'}
-    });
+    }, botId1, botId2);
   }
 
+  @Deprecated
   public void init(String path1, String path2) {
     first = new Player('x', path1);
     second = new Player('o', path2);
-    turns = new F.T2<>(first, second);
   }
 
   public TicTacToeState step() {

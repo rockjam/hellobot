@@ -14,7 +14,7 @@ public class Hour3 extends Assert {
         {'o', 'o', '-'}
     };
 
-    TicTacToe game = new TicTacToe(field);
+    TicTacToe game = new TicTacToe(field, null, null);
     assertThat(game.gameOver(), is(true));
   }
 
@@ -27,7 +27,7 @@ public class Hour3 extends Assert {
         {'-', '-', 'x'}
     };
 
-    TicTacToe game = new TicTacToe(field);
+    TicTacToe game = new TicTacToe(field, null, null);
     assertThat(game.gameOver(), is(true));
   }
 
@@ -39,7 +39,7 @@ public class Hour3 extends Assert {
         {'-', '-', 'x'}
     };
 
-    TicTacToe game = new TicTacToe(field);
+    TicTacToe game = new TicTacToe(field, null, null);
     assertThat(game.gameOver(), is(false));
   }
 
@@ -51,7 +51,7 @@ public class Hour3 extends Assert {
         {'-', '-', '-'}
     };
 
-    TicTacToe game = new TicTacToe(field);
+    TicTacToe game = new TicTacToe(field, null, null);
     assertThat(game.gameOver(), is(false));
   }
 

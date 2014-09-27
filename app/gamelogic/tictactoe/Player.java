@@ -10,6 +10,11 @@ public class Player {
     this.bot = BotCreation.createBot(path);
   }
 
+  public Player(char side, Long id) {
+    this.side = side;
+    this.bot = BotCreation.createBot(id);
+  }
+
   public Bot bot() {
     return bot;
   }

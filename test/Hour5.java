@@ -8,7 +8,7 @@ public class Hour5 extends Assert {
 
   @Test
   public void game_over_1() {
-    TicTacToe game = new TicTacToe();
+    TicTacToe game = new TicTacToe(null, null);
     game.init("testBot1.js", "testBot2.js");
 
     // step 0 - x
