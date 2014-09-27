@@ -10,7 +10,6 @@ import java.util.List;
 public class Application extends Controller {
 
   public static void index(Long firstId, Long secondId) {
-    System.out.println("firstId = [" + firstId + "], secondId = [" + secondId + "]");
     render(firstId, secondId);
   }
 
@@ -38,10 +37,6 @@ public class Application extends Controller {
       MessageDigest md = MessageDigest.getInstance("MD5");
       md.digest(pass.getBytes()).equals(peopleList.get(0).getPass());
     }
-  }
-
-  public static void create_bot() {
-    render();
   }
 
   public static void faq() {
