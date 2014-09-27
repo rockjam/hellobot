@@ -2,5 +2,5 @@ package gamelogic.tictactoe;
 
 
 public interface Bot {
-  public int[] makeMove(char[][] field);
+  public int[] makeMove(char[][] field, char symbol);
 }
