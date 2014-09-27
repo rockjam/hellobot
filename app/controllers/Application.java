@@ -27,15 +27,18 @@ public class Application extends Controller {
       }
     }
 
-    public static void login(String name, String pass) throws NoSuchAlgorithmException {
-      List<People> peopleList = People.find("name = ?", name).fetch();
-      if (!peopleList.isEmpty()) {
-
-        MessageDigest md = MessageDigest.getInstance("MD5");
-        md.digest(pass.getBytes()).equals(peopleList.get(0).getPass());
-      }
+    public static void login() {
       renderTemplate("@login");
     }
+
+  public static void signIn(String name, String pass) throws NoSuchAlgorithmException {
+    List<People> peopleList = People.find("name = ?", name).fetch();
+    if (!peopleList.isEmpty()) {
+
+      MessageDigest md = MessageDigest.getInstance("MD5");
+      md.digest(pass.getBytes()).equals(peopleList.get(0).getPass());
+    }
+  }
 
   public static void create_bot() {
     render();
