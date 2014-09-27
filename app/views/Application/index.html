@@ -1,28 +1,59 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
 
+<style>
+    #field table tr {
+        max-width: 200;
+        border: solid 10px green;
+    }
+    #field table tr td {
+        max-width: 200;
+        border: solid 10px green;
+    }
+
+</style>
 <script>
     $(function () {
-        var socket = new WebSocket("ws://localhost:9000/games/ticTacToe");
+                var socket = new WebSocket("ws://localhost:9000/games/ticTacToe");
 
-        socket.onmessage = function (event) {
-            var incomingMessage = event.data;
-            showMessage(incomingMessage);
-        };
+                socket.onmessage = function (event) {
+                    var incomingMessage = event.data;
+                    showMessage(incomingMessage);
+                };
 
-        function showMessage(message) {
-            var messageElem = document.createElement('div');
-            messageElem.appendChild(document.createTextNode(message));
-            document.getElementById('subscribe').appendChild(messageElem);
-        }
-    });
+                function showMessage(message) {
+                    var object = JSON.parse(message);
+
+                    var field = object.field;
+                    var table = $("#field table")[0];
+                    for (i = 0; i < field.length; i++) {
+                        for (j = 0; j < field[i].length; j++) {
+                            var symbol = field[i][j] == '-' ? ' ' : field[i][j];
+                            table.rows[i].cells[j].textContent = symbol;
+                        }
+                    }
+                }
+            }
+    );
 
 </script>
 
-<form name="publish">
-
-    <input type="text" name="message"/>
-    <input type="submit" value="Отправить"/>
-</form>
-
-<div id="subscribe">fe</div>
+<div style="background: red;" id="field">
+    <table>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+</div>
