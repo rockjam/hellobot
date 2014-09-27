@@ -40,10 +40,6 @@ public class Application extends Controller {
     }
   }
 
-  public static void create_bot() {
-    render();
-  }
-
   public static void faq() {
     render();
   }
