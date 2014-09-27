@@ -18,6 +18,7 @@ public class Hour5 extends Assert {
         {'-', '-', '-'},
         {'-', '-', '-'}
     };
+
     assertThat(step.isPlay(), is(true));
     assertThat(step.getField(), is(field));
 
