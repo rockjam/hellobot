@@ -40,12 +40,12 @@
                             table.rows[i].cells[j].appendChild(myImage);
                         }
                     }
-                    if (object.state != 'PLAY') {
-                        $('.result').html(object.message);
-                    }
-                    //TODO: исправить это
-                    if (object.state == 'OVER') {
-                        $('.result').html('Игра окончена! Победитель: ' + object.winner);
+                    if (object.state == 'WIN') {
+                        $('.result').html(object.message + object.winner);
+                    } else {
+                        if (object.state != 'PLAY') {
+                            $('.result').html(object.message);
+                        }
                     }
                 }
             }

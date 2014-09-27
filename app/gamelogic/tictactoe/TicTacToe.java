@@ -3,18 +3,20 @@ package gamelogic.tictactoe;
 import gamelogic.Game;
 import play.libs.F;
 
+import java.util.EnumSet;
+
 public class TicTacToe implements Game {
 
   enum BotStatus {
-    WIN("Победил один из ботов"),
+    WIN("Игра окончена! Победитель: "),
     LOSE("Игра закончилась преждевременно"),
     TIE("Ничья"),
     PLAY("");
 
-    public String title;
+    public String message;
 
-    BotStatus(String title) {
-      this.title = title;
+    BotStatus(String message) {
+      this.message = message;
     }
   }
 
@@ -50,13 +52,10 @@ public class TicTacToe implements Game {
 
   public TicTacToeState step() {
     final BotStatus state = nextStep();
-    return new TicTacToeState(state, state.title, field);
-    
-    //TODO
-    if (nextStep() != BotStatus.PLAYING) {
-      return new TicTacToeState(GameState.OVER, field, turns._2.bot().getName());
+    if (EnumSet.of(BotStatus.LOSE, BotStatus.TIE, BotStatus.PLAY).contains(state)) {
+      return new TicTacToeState(state, field);
     }
-    return new TicTacToeState(GameState.PLAY, field);
+    return new TicTacToeState(state, field, turns._2.bot().getName());
   }
 
   public BotStatus nextStep() {
@@ -65,7 +64,7 @@ public class TicTacToe implements Game {
     String[][] jsField = new String[FIELD_SIZE][FIELD_SIZE];
     for (int row = 0; row < field.length; ++row) {
       for (int col = 0; col < field[row].length; col++) {
-        jsField[row][col] = new String(String.valueOf(field[row][col]));
+        jsField[row][col] = String.valueOf(field[row][col]);
       }
     }
 
@@ -148,9 +147,8 @@ public class TicTacToe implements Game {
     }
 
     public TicTacToeState(BotStatus state, char[][] field, String winner) {
-    TicTacToeState(BotStatus state, String message, char[][] field) {
       this.state = state;
-      this.message = message;
+      this.message = state.message;
       this.field = field;
       this.winner = winner;
     }
@@ -161,10 +159,6 @@ public class TicTacToe implements Game {
 
     public char[][] getField() {
       return field;
-    }
-
-    public String getWinner() {
-      return winner;
     }
   }
 
