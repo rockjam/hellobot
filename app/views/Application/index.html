@@ -40,8 +40,8 @@
                             table.rows[i].cells[j].appendChild(myImage);
                         }
                     }
-                    if (object.state == 'OVER') {
-                        $('.result').html('Игра окончена');
+                    if (object.state != 'PLAY') {
+                        $('.result').html(object.message);
                     }
                 }
             }
