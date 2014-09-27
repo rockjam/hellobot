@@ -1,9 +1,11 @@
 package controllers;
 
 import models.People;
-import play.data.validation.Valid;
-import play.data.validation.Validation;
 import play.mvc.Controller;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 public class Application extends Controller {
 
@@ -15,17 +17,28 @@ public class Application extends Controller {
   
     public static void registration() {render();}
 
-    public static void saveUser(@Valid People user) {
-      if (Validation.hasErrors()) {
-        renderTemplate("@registration", user);
+    public static void saveUser(People user) {
+      List<String> names = People.find("name = ?", user.getName()).fetch();
+      if (names.isEmpty()) {
+        user.save();
+        renderTemplate("@login");
+      } else {
+        //TODO пользователь с таким именем уже существует
       }
-      user._save();
-      renderTemplate("@login", "Вы успешно зарегистрировались");
     }
 
     public static void login() {
       renderTemplate("@login");
     }
+
+  public static void signIn(String name, String pass) throws NoSuchAlgorithmException {
+    List<People> peopleList = People.find("name = ?", name).fetch();
+    if (!peopleList.isEmpty()) {
+
+      MessageDigest md = MessageDigest.getInstance("MD5");
+      md.digest(pass.getBytes()).equals(peopleList.get(0).getPass());
+    }
+  }
 
   public static void create_bot() {
     render();
