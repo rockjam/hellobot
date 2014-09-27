@@ -13,12 +13,9 @@ public class Application extends Controller {
 
     public static void registration() {render();}
 
-    public static void saveUser(@Valid People user) {
-      if (Validation.hasErrors()) {
-        renderTemplate("@registration", user);
-      }
-      user._save();
-      renderTemplate("@login", "Вы успешно зарегистрировались");
+    public static void saveUser(People user) {
+      user.save();
+      renderTemplate("@login");
     }
 
     public static void login() {
