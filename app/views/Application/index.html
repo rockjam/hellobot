@@ -7,10 +7,10 @@
     var zero = new Image(94, 94);
     zero.src = '/public/images/null.png';
     var dummy = new Image(94, 94);
-    dummy.src = '/public/images/empty.png'
+    dummy.src = '/public/images/empty.png';
 
     $(function () {
-                var socket = new WebSocket("ws://localhost:9000/games/ticTacToe");
+                var socket = new WebSocket("@@{Games.ticTacToe}");
 
                 socket.onmessage = function (event) {
                     var incomingMessage = event.data;
