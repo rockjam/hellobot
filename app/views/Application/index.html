@@ -17,7 +17,7 @@
                     showMessage(incomingMessage);
                 };
 
-                socket.onopen = function() {
+                socket.onopen = function () {
                     socket.send('${firstId}');
                     socket.send('${secondId}');
                 };
@@ -42,6 +42,10 @@
                     }
                     if (object.state != 'PLAY') {
                         $('.result').html(object.message);
+                    }
+                    //TODO: исправить это
+                    if (object.state == 'OVER') {
+                        $('.result').html('Игра окончена! Победитель: ' + object.winner);
                     }
                 }
             }

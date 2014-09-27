@@ -1,26 +1,34 @@
 package gamelogic.tictactoe;
 
+import models.Bot;
+
 public class Player {
-
-  private final char side;
   private final Bot bot;
+  private final char side;
+  private final Strategy strategy;
 
+  @Deprecated
   public Player(char side, String path) {
     this.side = side;
-    this.bot = BotCreation.createBot(path);
+    this.bot = null;
+    this.strategy = StrategyCreation.createBot(path);
   }
 
   public Player(char side, Long id) {
     this.side = side;
-    this.bot = BotCreation.createBot(id);
+    this.bot = Bot.findById(id);
+    this.strategy = StrategyCreation.createBot(bot.getPath());
   }
 
-  public Bot bot() {
-    return bot;
+  public Strategy strategy() {
+    return strategy;
   }
 
   public char side() {
     return side;
   }
 
+  public Bot bot() {
+    return bot;
+  }
 }

@@ -11,7 +11,6 @@ import static play.mvc.Http.WebSocketEvent.TextFrame;
 public class Games extends WebSocketController {
 
   public static void ticTacToe() {
-
     F.Tuple<Long, Long> ids = new F.Tuple<>(null, null);
     while (inbound.isOpen() && !isFull(ids)) {
       Http.WebSocketEvent e = await(inbound.nextEvent());

@@ -51,6 +51,12 @@ public class TicTacToe implements Game {
   public TicTacToeState step() {
     final BotStatus state = nextStep();
     return new TicTacToeState(state, state.title, field);
+    
+    //TODO
+    if (nextStep() != BotStatus.PLAYING) {
+      return new TicTacToeState(GameState.OVER, field, turns._2.bot().getName());
+    }
+    return new TicTacToeState(GameState.PLAY, field);
   }
 
   public BotStatus nextStep() {
@@ -63,7 +69,7 @@ public class TicTacToe implements Game {
       }
     }
 
-    int[] step = current.bot().makeMove(jsField, String.valueOf(current.side()));
+    int[] step = current.strategy().makeMove(jsField, String.valueOf(current.side()));
     if (!canMakeMove(step)) {
       return BotStatus.LOSE;
     }
@@ -135,12 +141,18 @@ public class TicTacToe implements Game {
     private final BotStatus state;
     private final String message;
     private final char[][] field;
-    private String winner;
+    private final String winner;
 
+    public TicTacToeState(BotStatus state, char[][] field) {
+      this(state, field, null);
+    }
+
+    public TicTacToeState(BotStatus state, char[][] field, String winner) {
     TicTacToeState(BotStatus state, String message, char[][] field) {
       this.state = state;
       this.message = message;
       this.field = field;
+      this.winner = winner;
     }
 
     public boolean isPlay() {
@@ -149,6 +161,10 @@ public class TicTacToe implements Game {
 
     public char[][] getField() {
       return field;
+    }
+
+    public String getWinner() {
+      return winner;
     }
   }
 

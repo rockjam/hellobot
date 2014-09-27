@@ -130,3 +130,7 @@ a#register, a#login {
 footer {
     height: 30px;
 }
+
+.home {
+    background: url(/public/images/home.png) no-repeat;
+}
