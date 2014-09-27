@@ -2,14 +2,41 @@ package controllers;
 
 import com.google.gson.Gson;
 import gamelogic.tictactoe.TicTacToe;
+import models.Bot;
+import play.libs.F;
+import play.mvc.Http;
 import play.mvc.WebSocketController;
+
+import static play.mvc.Http.WebSocketEvent.TextFrame;
 
 public class Games extends WebSocketController {
 
   public static void ticTacToe() {
+    Long firstId = null;
+    Long secondId = null;
+
+    while (inbound.isOpen() && firstId == null && secondId == null) {
+      Http.WebSocketEvent e = await(inbound.nextEvent());
+
+      F.Option<String> match = TextFrame.match(e);
+      System.out.println("match.isDefined() = " + match.isDefined());
+      /*if (firstId == null && match.isDefined()) {
+        firstId = Long.parseLong(match.get());
+      }
+      if (secondId == null && match.isDefined()) {
+        secondId = Long.parseLong(match.get());
+      }*/
+    }
+
+    System.out.println("firstId = " + firstId);
+    Bot firstBot = Bot.findById(firstId);
+    Bot secondBot = Bot.findById(secondId);
+
+    System.out.println("firstBot = " + firstBot);
+    System.out.println("secondBot = " + secondBot);
 //    while (inbound.isOpen()) {
     TicTacToe game = new TicTacToe();
-    game.init("testBot1.js", "testBot2.js");
+    game.init(firstBot.getPath(), secondBot.getPath());
 
 
     TicTacToe.TicTacToeState state = null;
