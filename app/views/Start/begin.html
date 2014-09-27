@@ -1,0 +1,18 @@
+#{extends 'main.html' /}
+#{set title:'Begin' /}
+
+#{form @Application.index()}
+    #{list bots, as: 'bot'}
+    <div>${bot.name} - ${bot.id}</div>
+    #{/list}
+<label>
+    First:
+    <input type="text" name="firstId"/>
+</label>
+<label>
+    Second:
+    <input type="text" name="secondId"/>
+</label>
+
+<input type="submit" value="Ok">
+#{/form}

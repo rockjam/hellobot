@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 
-public class Hour4 extends Assert {
+public class Hour5 extends Assert {
 
   @Test
   public void game_over_1() {
@@ -18,6 +18,7 @@ public class Hour4 extends Assert {
         {'-', '-', '-'},
         {'-', '-', '-'}
     };
+
     assertThat(step.isPlay(), is(true));
     assertThat(step.getField(), is(field));
 
