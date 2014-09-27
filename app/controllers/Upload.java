@@ -17,7 +17,7 @@ public class Upload extends Controller {
 
     try(OutputStreamWriter writer =
             new OutputStreamWriter(
-                new FileOutputStream("bots/" + botName + ".js", true)))  {
+                new FileOutputStream("bots/TicTacToe/" + botName + ".js", true)))  {
       BufferedWriter out = new BufferedWriter(writer);
 
       out.write(bot);
