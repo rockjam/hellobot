@@ -9,6 +9,10 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import java.io.OutputStreamWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+
 import static org.hamcrest.CoreMatchers.is;
 
 public class Hour1 extends Assert {
@@ -36,7 +40,10 @@ public class Hour1 extends Assert {
         {"-", "-", "-"},
         {"-", "-", "-"}
     };
-    Bot dummy = BotCreation.createBot("dummyBot.js");
+
+    Writer writer = new OutputStreamWriter(System.out);
+    Writer errWriter = new OutputStreamWriter(System.err);
+    Bot dummy = BotCreation.createBot("dummyBot.js", writer, errWriter);
 
     int[] move = dummy.makeMove(field, "x");
     int[] expected = {0, 0};

@@ -1,9 +1,11 @@
 package gamelogic.tictactoe;
 
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
+import javax.script.*;
 import java.io.FileReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.List;
 
 public class BotCreation {
 
@@ -11,13 +13,15 @@ public class BotCreation {
     return models.Bot.<models.Bot>findById(id).getPath();
   }
 
-  public static Bot createBot(Long id) {
-    return createBot(getPathById(id));
+  public static Bot createBot(Long id,  Writer writer, Writer errWriter) {
+    return createBot(getPathById(id), writer, errWriter);
   }
 
-  public static Bot createBot(String path) {
+  public static Bot createBot(String path, Writer writer, Writer errWriter) {
     try (FileReader reader = new FileReader(path)) {
       final ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
+      engine.getContext().setWriter(writer);
+      engine.getContext().setErrorWriter(errWriter);
       engine.eval(reader);
       Invocable invocable = (Invocable) engine;
       return invocable.getInterface(Bot.class);

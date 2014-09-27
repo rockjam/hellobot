@@ -8,12 +8,16 @@ public class Hour4 extends Assert {
 
   @Test
   public void game_over_1() {
-    TicTacToe game = new TicTacToe(null, null);
-    game.init("testBot1.js", "testBot2.js");
+    char[][] field = {
+        {'-', '-', '-'},
+        {'-', '-', '-'},
+        {'-', '-', '-'}
+    };
+    TicTacToe game = new TicTacToe(field, "testBot1.js", "testBot2.js");
 
     // step 0 - x
     TicTacToe.TicTacToeState step = game.step();
-    char[][] field = {
+    field = new char[][]{
         {'x', '-', '-'},
         {'-', '-', '-'},
         {'-', '-', '-'}

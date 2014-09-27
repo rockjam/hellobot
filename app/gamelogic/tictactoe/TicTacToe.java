@@ -3,8 +3,6 @@ package gamelogic.tictactoe;
 import gamelogic.Game;
 import play.libs.F;
 
-import java.util.Arrays;
-
 public class TicTacToe implements Game {
 
   enum BotStatus {
@@ -35,25 +33,39 @@ public class TicTacToe implements Game {
     this.turns = new F.T2<>(first, second);
   }
 
+  public TicTacToe(char[][] field, String path1, String path2) {
+    this.field = field;
+    this.first = new Player('x', path1);
+    this.second = new Player('o', path2);
+    this.turns = new F.T2<>(first, second);
+  }
+
   public TicTacToe(Long botId1, Long botId2) {
-    this(new char[][]{
+    this(getEmptyField(), botId1, botId2);
+  }
+
+  public static char[][] getEmptyField()
+  {
+    return new char[][]{
         {'-', '-', '-'},
         {'-', '-', '-'},
         {'-', '-', '-'}
-    }, botId1, botId2);
-  }
-
-  @Deprecated
-  public void init(String path1, String path2) {
-    first = new Player('x', path1);
-    second = new Player('o', path2);
+    };
   }
 
   public TicTacToeState step() {
     if (nextStep() != BotStatus.PLAYING) {
-      return new TicTacToeState(GameState.OVER, field);
+      return new TicTacToeState(
+          GameState.OVER,
+          field,
+          first.getLog(),
+          second.getLog());
     }
-    return new TicTacToeState(GameState.PLAY, field);
+    return new TicTacToeState(
+        GameState.PLAY,
+        field,
+        first.getLog(),
+        second.getLog());
   }
 
   public BotStatus nextStep() {
@@ -67,6 +79,8 @@ public class TicTacToe implements Game {
     }
 
     int[] step = current.bot().makeMove(jsField, String.valueOf(current.side()));
+    current.getLog().toString();
+
     if (!canMakeMove(step)) {
       return BotStatus.LOSE;
     }
@@ -124,10 +138,14 @@ public class TicTacToe implements Game {
     private final GameState state;
     private final char[][] field;
     private String winner;
+    private String firstLog;
+    private String secondLog;
 
-    TicTacToeState(GameState state, char[][] field) {
+    TicTacToeState(GameState state, char[][] field, String firstLog, String secondLog) {
       this.state = state;
       this.field = field;
+      this.firstLog = firstLog;
+      this.secondLog = secondLog;
     }
 
     public boolean isPlay() {
