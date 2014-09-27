@@ -3,11 +3,7 @@
 
 <form action="@{Upload.addBot()}" method="POST" enctype="multipart/form-data">
     <p><label>Nickname bot:&nbsp;</label><input type="text" name="bot.name" id="botName"></p>
-    <p><label>Аватар:&nbsp;</label><br />
-        <img src="/public/images/avatar/ava2.png" class="avatar" id="ava2">
-        <img src="/public/images/avatar/ava3.png" class="avatar" id="ava3">
-        <img src="/public/images/avatar/unnamed.png" class="avatar" id="unnamed">
-        <br/>
+    <br/>
     <textarea name="sourceCode" id="bot" cols="100" rows="20"></textarea><br/>
     <input type="submit" value="Загрузить бота"/>
 </form>
