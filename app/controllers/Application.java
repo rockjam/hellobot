@@ -10,7 +10,6 @@ import java.util.List;
 public class Application extends Controller {
 
   public static void index(Long firstId, Long secondId) {
-    System.out.println("firstId = [" + firstId + "], secondId = [" + secondId + "]");
     render(firstId, secondId);
   }
 
