@@ -10,8 +10,10 @@
                     showMessage(incomingMessage);
                 };
 
-                socket.send('${firstId}');
-                socket.send('${secondId}');
+                socket.onopen = function() {
+                    socket.send('${firstId}');
+                    socket.send('${secondId}');
+                };
 
                 function showMessage(message) {
                     var object = JSON.parse(message);

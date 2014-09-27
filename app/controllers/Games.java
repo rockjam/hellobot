@@ -7,38 +7,30 @@ import play.libs.F;
 import play.mvc.Http;
 import play.mvc.WebSocketController;
 
+import static play.libs.F.Matcher.Equals;
 import static play.mvc.Http.WebSocketEvent.TextFrame;
 
 public class Games extends WebSocketController {
 
   public static void ticTacToe() {
-    Long firstId = null;
-    Long secondId = null;
 
-    while (inbound.isOpen() && firstId == null && secondId == null) {
+    F.Tuple<Long, Long> ids = new F.Tuple<>(null, null);
+    boolean read = true;
+    while (inbound.isOpen() && read) {
       Http.WebSocketEvent e = await(inbound.nextEvent());
-
-      F.Option<String> match = TextFrame.match(e);
-      System.out.println("match.isDefined() = " + match.isDefined());
-      /*if (firstId == null && match.isDefined()) {
-        firstId = Long.parseLong(match.get());
+      for (String id : TextFrame.match(e)) {
+        Long l = Long.parseLong(id);
+        if (ids._1 != null && ids._2 == null) {
+          ids = new F.Tuple<>(ids._1, l);
+          read = false;
+        }
+        if (ids._1 == null) {
+          ids = new F.Tuple<>(l, null);
+        }
       }
-      if (secondId == null && match.isDefined()) {
-        secondId = Long.parseLong(match.get());
-      }*/
     }
 
-    System.out.println("firstId = " + firstId);
-    Bot firstBot = Bot.findById(firstId);
-    Bot secondBot = Bot.findById(secondId);
-
-    System.out.println("firstBot = " + firstBot);
-    System.out.println("secondBot = " + secondBot);
-//    while (inbound.isOpen()) {
-    TicTacToe game = new TicTacToe();
-    game.init(firstBot.getPath(), secondBot.getPath());
-
-
+    TicTacToe game = new TicTacToe(ids._1, ids._2);
     TicTacToe.TicTacToeState state = null;
     do {
       state = game.step();
