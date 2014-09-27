@@ -1,0 +1,10 @@
+#{extends 'main.html' /}
+#{set title:'Begin' /}
+
+#{list bots, as: 'bot'}
+<div>
+    <label> ${bot.name}
+        <input name="bot[]" type="checkbox"/>
+    </label>
+</div>
+#{/list}

@@ -2,7 +2,7 @@
 #{set title:'Home' /}
 
 <form action="@{Upload.addBot()}" method="POST" enctype="multipart/form-data">
-    Имя бота: <input type="text" name="botName" id = "botName" /><br/>
-    <textarea name="bot" id="bot" cols="150" rows="20"></textarea><br/>
-    <input type="submit" value="Загрузить бота" />
+    Имя бота: <input type="text" name="bot.name" id="botName"/><br/>
+    <textarea name="sourceCode" id="bot" cols="150" rows="20"></textarea><br/>
+    <input type="submit" value="Загрузить бота"/>
 </form>
