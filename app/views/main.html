@@ -1,16 +1,94 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <title>#{get 'title' /}</title>
-        <meta charset="${_response_encoding}">
-        <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main.css'}">
-        #{get 'moreStyles' /}
-        <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
-        <script src="@{'/public/javascripts/jquery-1.6.4.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-        #{get 'moreScripts' /}
-    </head>
-    <body>
-        #{doLayout /}
-    </body>
+<head>
+    <title>HelloBot</title>
+    <meta charset="${_response_encoding}">
+    <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main.css'}">
+    <!--#{get 'moreStyles' /}-->
+    <link rel="shortcut icon" type="image/ico" href="@{'/public/images/favicon.ico'}">
+    <script src="@{'/public/javascripts/jquery-1.6.4.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+    <script src="@{'/public/javascripts/jquery.slides.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+    <script src="@{'/public/javascripts/app.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+    <script>
+        $(function(){
+            $("#register").click(function() {
+                $.get(
+                        "@@{Application.registration()}",
+                        {},
+                        function(e) {
+                            $("article").html(e);
+                        });
+                return false;
+            });
+
+            $("#login").click(function() {
+                $.get(
+                        "@@{Application.login()}",
+                        {},
+                        function(e) {
+                            $("article").html(e);
+                        });
+                return false;
+            });
+
+            $("#create_bot").click(function() {
+                $.get(
+                        "@@{Application.create_bot()}",
+                        {},
+                        function(e) {
+                            $("article").html(e);
+                        });
+                return false;
+            });
+            $("#faq").click(function() {
+                $.get(
+                        "@@{Application.faq()}",
+                        {},
+                        function(e) {
+                            $("article").html(e);
+                        });
+                return false;
+            });
+            $("#translation").click(function() {
+                $.get(
+                        "@@{Application.translation()}",
+                        {},
+                        function(e) {
+                            $("article").html(e);
+                        });
+                return false;
+            });
+
+        });
+    </script>
+#{get 'moreScripts' /}
+</head>
+<body>
+<div id="wrapper">
+    <header>
+        <div id="container">
+            <div id="slides">
+                <img src="/public/images/slider/slide_1.png" width="900" height="480" alt="Slide 1">
+                <img src="/public/images/slider/slide_2.png" width="900" height="480" alt="Slide 2">
+                <img src="/public/images/slider/slide_3.png" width="900" height="480" alt="Slide 3">
+                <img src="/public/images/slider/slide_4.png" width="900" height="480" alt="Slide 4">
+                <img src="/public/images/slider/slide_5.png" width="900" height="480" alt="Slide 5">
+            </div>
+        </div>
+        <div class="login-register"><a href="#" id="login">Вход</a>/<a id="register" href="#">регистрация</a></div>
+    </header>
+    <nav>
+
+        <ul class="hr">
+            <li><a href="#">#</a></li>
+            <li><a href="#" id="create_bot">Создать бота</a></li>
+            <li><a href="#" id="translation">Трансляции</a></li>
+            <li><a href="#" id="faq">FAQ</a></li>
+        </ul>
+    </nav>
+    <article></article>
+    <footer></footer>
+</div>
+</body>
 </html>

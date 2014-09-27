@@ -1,0 +1,84 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Ubuntu Mono';
+    font-size: 14px ;
+    background-color: #E0E0E0;
+}
+
+p {
+    padding: 10px 0;
+}
+
+input {
+    padding: 2px;
+}
+
+ul.hr {
+    margin: 0;
+    padding: 4px;
+}
+ul.hr li {
+    display: inline;
+    margin-right: 5px;
+    padding: 3px;
+    text-shadow: 0.1em 0.1em 0.2em black;
+}
+
+ul.hr li a, ul.hr li a:hover, ul.hr li a:active, ul.hr li a:focus {
+    text-decoration: none;
+    color: #fff;
+}
+
+header {
+    background-color: #E2E2E2;
+}
+
+nav {
+    background-color: #5967CF;
+    padding: 8px 10px;
+    color: #fff;
+    border-radius: 5px;
+}
+
+#container {
+    width:900px;
+    margin: 0 auto;
+    position:relative;
+}
+
+#slides {
+    position:relative;
+}
+
+#slides .slidesContainer {
+    margin-left:-8px;
+}
+
+.login-register {
+    float: right;
+    display: inline;
+    position: relative;
+    bottom: 16px;
+    right: 20px;
+}
+
+article {
+    padding: 10px;
+}
+
+.zag {
+    font-size: 17px;
+    font-weight: 800;
+}
+
+a#register, a#login {
+    color:#000;
+}
+
+.avatar {
+    max-width: 60px;
+}
