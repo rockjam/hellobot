@@ -25,7 +25,7 @@ function minimax(field, depth, side, alpha, beta)
     var    bestRow = -1;
     var    bestCol = -1;
 
-    if (nextMoves.isEmpty() || depth == 0) {
+    if (nextMoves.length > 0 || depth == 0) {
         // Gameover or depth reached, evaluate score
         score = evaluate(field);
         return new [ score, bestRow, bestCol];
