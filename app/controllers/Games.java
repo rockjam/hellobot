@@ -12,18 +12,11 @@ public class Games extends WebSocketController {
 
   public static void ticTacToe() {
     F.Tuple<Long, Long> ids = new F.Tuple<>(null, null);
-    boolean read = true;
-    while (inbound.isOpen() && read) {
+    while (inbound.isOpen() && !isFull(ids)) {
       Http.WebSocketEvent e = await(inbound.nextEvent());
       for (String id : TextFrame.match(e)) {
         Long l = Long.parseLong(id);
-        if (ids._1 != null && ids._2 == null) {
-          ids = new F.Tuple<>(ids._1, l);
-          read = false;
-        }
-        if (ids._1 == null) {
-          ids = new F.Tuple<>(l, null);
-        }
+        ids = intiId(ids, l);
       }
     }
 
@@ -32,30 +25,24 @@ public class Games extends WebSocketController {
     do {
       state = game.step();
       try {
-        Thread.sleep(1000L);
+        Thread.sleep(600L);
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
       outbound.send(new Gson().toJson(state));
     } while (state.isPlay());
 
-//      Http.WebSocketEvent e = await(inbound.nextEvent());
-
-
-      /*for(String quit: TextFrame.and(Equals("quit")).match(e)) {
-        outbound.send("Bye!");
-        disconnect();
-      }
-
-
-      for(String message: TextFrame.match(e)) {
-        while(true){outbound.send("Echo: %s", message);}
-      }
-
-      for(Http.WebSocketClose closed: SocketClosed.match(e)) {
-        Logger.info("Socket closed!");
-      }*/
-//    }
-
   }
+
+  private static boolean isFull(F.Tuple<Long, Long> tuple) {
+    return tuple._1 != null && tuple._2 != null;
+  }
+
+  private static F.Tuple<Long, Long> intiId(F.Tuple<Long, Long> prev, Long fromSocket) {
+    if (prev._1 == null) {
+      return new F.Tuple<>(fromSocket, null);
+    }
+    return new F.Tuple<>(prev._1, fromSocket);
+  }
+
 }
