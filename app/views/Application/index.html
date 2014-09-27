@@ -1,17 +1,6 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
 
-<style>
-    #field table tr {
-        max-width: 200;
-        border: solid 10px green;
-    }
-    #field table tr td {
-        max-width: 200;
-        border: solid 10px green;
-    }
-
-</style>
 <script>
     $(function () {
                 var socket = new WebSocket("ws://localhost:9000/games/ticTacToe");
@@ -23,13 +12,13 @@
 
                 function showMessage(message) {
                     var object = JSON.parse(message);
-
                     var field = object.field;
-                    var table = $("#field table")[0];
-                    for (i = 0; i < field.length; i++) {
-                        for (j = 0; j < field[i].length; j++) {
+                    var table = $("#game-pole")[0];
+                    for (var i = 0; i < field.length; i++) {
+                        for (var j = 0; j < field[i].length; j++) {
                             var symbol = field[i][j] == '-' ? ' ' : field[i][j];
-                            table.rows[i].cells[j].textContent = symbol;
+                            console.log(field[i][j]);
+                            table.rows[i].cells[j].innerHTML = symbol;
                         }
                     }
                 }
@@ -38,8 +27,8 @@
 
 </script>
 
-<div style="background: red;" id="field">
-    <table>
+<div id="field">
+    <table id="game-pole">
         <tr>
             <td></td>
             <td></td>
