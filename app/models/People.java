@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.SequenceGenerator;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 @Entity
 @SequenceGenerator(name = "people", sequenceName = "people")
@@ -42,6 +44,12 @@ public class People extends GenericModel {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public byte[] getPass() throws NoSuchAlgorithmException {
+    MessageDigest md = MessageDigest.getInstance("MD5");
+    byte[] result = md.digest(pass.getBytes());
+    return result;
   }
 
   public void setPass(String pass) {
