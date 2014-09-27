@@ -1,5 +1,6 @@
 package controllers;
 
+import models.People;
 import play.mvc.Controller;
 
 public class Application extends Controller {
@@ -8,8 +9,11 @@ public class Application extends Controller {
         render();
     }
 
-    public static void registration() {
-        render();
+    public static void registration() {render();}
+
+    public static void saveUser(People user) {
+      user.save();
+      index();
     }
 
     public static void login() {

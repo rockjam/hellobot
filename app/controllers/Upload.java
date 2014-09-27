@@ -3,6 +3,7 @@ package controllers;
 import play.mvc.Controller;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -15,19 +16,26 @@ public class Upload extends Controller {
 
   public static void addBot(String botName, String bot) throws IOException {
 
-    try(OutputStreamWriter writer =
-            new OutputStreamWriter(
-                new FileOutputStream("bots/TicTacToe/" + botName + ".js", true)))  {
-      BufferedWriter out = new BufferedWriter(writer);
+    File botFile = new File("bots/TicTacToe/" + botName + ".js");
 
-      out.write(bot);
-      out.flush();
-      out.close();
+    //TODO: Сделать проверку, что в botName только английские буквы и цифры
+    if(!botFile.exists()) {
+      try (OutputStreamWriter writer =
+               new OutputStreamWriter(
+                   new FileOutputStream(botFile, true))) {
+        BufferedWriter out = new BufferedWriter(writer);
 
-    }
-    catch(IOException ex)
-    {
-      System.err.println(ex);
+        out.write(bot);
+        out.flush();
+        out.close();
+
+      } catch (IOException ex) {
+        System.err.println(ex);
+      }
+      Application.index();
+    } else {
+      //TODO: Вывести сообщение, что файл с таким именем уже есть
+      addBotForm();
     }
   }
 }
