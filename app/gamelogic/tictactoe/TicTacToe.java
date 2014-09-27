@@ -3,8 +3,6 @@ package gamelogic.tictactoe;
 import gamelogic.Game;
 import play.libs.F;
 
-import java.util.Arrays;
-
 public class TicTacToe implements Game {
 
   enum BotStatus {
@@ -17,7 +15,6 @@ public class TicTacToe implements Game {
     PLAY,
     OVER
   }
-
 
   private static final int FIELD_SIZE = 3;
   private static final int MAX_INDEX = FIELD_SIZE - 1;
@@ -51,7 +48,7 @@ public class TicTacToe implements Game {
 
   public TicTacToeState step() {
     if (nextStep() != BotStatus.PLAYING) {
-      return new TicTacToeState(GameState.OVER, field);
+      return new TicTacToeState(GameState.OVER, field, turns._2.bot().getName());
     }
     return new TicTacToeState(GameState.PLAY, field);
   }
@@ -59,14 +56,14 @@ public class TicTacToe implements Game {
   public BotStatus nextStep() {
     Player current = turns._1;
 
-    String [][] jsField = new String [FIELD_SIZE][FIELD_SIZE];
-    for(int row=0; row < field.length; ++row) {
-        for (int col=0; col < field[row].length; col++) {
-            jsField[row][col] = new String(String.valueOf(field[row][col]));
-        }
+    String[][] jsField = new String[FIELD_SIZE][FIELD_SIZE];
+    for (int row = 0; row < field.length; ++row) {
+      for (int col = 0; col < field[row].length; col++) {
+        jsField[row][col] = new String(String.valueOf(field[row][col]));
+      }
     }
 
-    int[] step = current.bot().makeMove(jsField, String.valueOf(current.side()));
+    int[] step = current.strategy().makeMove(jsField, String.valueOf(current.side()));
     if (!canMakeMove(step)) {
       return BotStatus.LOSE;
     }
@@ -123,11 +120,16 @@ public class TicTacToe implements Game {
   public final class TicTacToeState {
     private final GameState state;
     private final char[][] field;
-    private String winner;
+    private final String winner;
 
-    TicTacToeState(GameState state, char[][] field) {
+    public TicTacToeState(GameState state, char[][] field) {
+      this(state, field, null);
+    }
+
+    public TicTacToeState(GameState state, char[][] field, String winner) {
       this.state = state;
       this.field = field;
+      this.winner = winner;
     }
 
     public boolean isPlay() {
@@ -136,6 +138,10 @@ public class TicTacToe implements Game {
 
     public char[][] getField() {
       return field;
+    }
+
+    public String getWinner() {
+      return winner;
     }
   }
 

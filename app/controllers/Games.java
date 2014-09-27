@@ -2,18 +2,15 @@ package controllers;
 
 import com.google.gson.Gson;
 import gamelogic.tictactoe.TicTacToe;
-import models.Bot;
 import play.libs.F;
 import play.mvc.Http;
 import play.mvc.WebSocketController;
 
-import static play.libs.F.Matcher.Equals;
 import static play.mvc.Http.WebSocketEvent.TextFrame;
 
 public class Games extends WebSocketController {
 
   public static void ticTacToe() {
-
     F.Tuple<Long, Long> ids = new F.Tuple<>(null, null);
     boolean read = true;
     while (inbound.isOpen() && read) {
@@ -31,7 +28,7 @@ public class Games extends WebSocketController {
     }
 
     TicTacToe game = new TicTacToe(ids._1, ids._2);
-    TicTacToe.TicTacToeState state = null;
+    TicTacToe.TicTacToeState state;
     do {
       state = game.step();
       try {

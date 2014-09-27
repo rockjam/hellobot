@@ -1,6 +1,5 @@
-import gamelogic.tictactoe.Bot;
-import gamelogic.tictactoe.BotCreation;
-import gamelogic.tictactoe.TicTacToe;
+import gamelogic.tictactoe.Strategy;
+import gamelogic.tictactoe.StrategyCreation;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -36,7 +35,7 @@ public class Hour1 extends Assert {
         {"-", "-", "-"},
         {"-", "-", "-"}
     };
-    Bot dummy = BotCreation.createBot("dummyBot.js");
+    Strategy dummy = StrategyCreation.createBot("dummyBot.js");
 
     int[] move = dummy.makeMove(field, "x");
     int[] expected = {0, 0};

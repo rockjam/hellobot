@@ -17,7 +17,7 @@
                     showMessage(incomingMessage);
                 };
 
-                socket.onopen = function() {
+                socket.onopen = function () {
                     socket.send('${firstId}');
                     socket.send('${secondId}');
                 };
@@ -41,7 +41,7 @@
                         }
                     }
                     if (object.state == 'OVER') {
-                        $('.result').html('Игра окончена');
+                        $('.result').html('Игра окончена! Победитель: ' + object.winner);
                     }
                 }
             }
