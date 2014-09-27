@@ -1,9 +1,11 @@
 //Simplest Strategy – Heuristic Preferences via Table Lookup
 
 var EMPTY = '-';
-var preferredMoves = [
-[1, 1], [0, 0], [0, 2], [2, 0], [2, 2],
-[0, 1], [1, 0], [1, 2], [2, 1]];
+var preferredMoves =
+    [
+        [1, 1], [0, 0], [0, 2], [2, 0], [2, 2],
+        [0, 1], [1, 0], [1, 2], [2, 1]
+    ];
 
 function makeMove(field, my) {
 

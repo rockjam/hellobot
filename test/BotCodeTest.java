@@ -10,21 +10,37 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 
 public class BotCodeTest extends Assert {
 
 
   @Test
   public void Minimax(){
-      char[][] field = {
-              {'-', '-', '-'},
-              {'-', '-', '-'},
-              {'-', '-', '-'}
+      String[][] field = {
+              {"-", "-", "-"},
+              {"-", "-", "-"},
+              {"-", "-", "-"}
       };
       Bot bot = BotCreation.createBot("bots/TicTacToe/Minimax.js");
+      assertThat(bot, notNullValue());
 
-      int[] move = bot.makeMove(field, 'x');
+      int[] move = bot.makeMove(field, "x");
       int[] expected = {1, 1};
       assertThat(move, is(expected));
   }
+
+    @Test
+    public void SimpleTableLookup(){
+        String[][] field = {
+                {"-", "-", "-"},
+                {"-", "-", "-"},
+                {"-", "-", "-"}
+        };
+        Bot bot = BotCreation.createBot("bots/TicTacToe/SimpleTableLookup.js");
+
+        int[] move = bot.makeMove(field, "x");
+        int[] expected = {1, 1};
+        assertThat(move, is(expected));
+    }
 }

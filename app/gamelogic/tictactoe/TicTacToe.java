@@ -3,6 +3,8 @@ package gamelogic.tictactoe;
 import gamelogic.Game;
 import play.libs.F;
 
+import java.util.Arrays;
+
 public class TicTacToe implements Game {
 
   enum BotStatus {
@@ -54,7 +56,15 @@ public class TicTacToe implements Game {
 
   public BotStatus nextStep() {
     Player current = turns._1;
-    int[] step = current.bot().makeMove(field, current.side());
+
+    String [][] jsField = new String [FIELD_SIZE][FIELD_SIZE];
+    for(int row=0; row < field.length; ++row) {
+        for (int col=0; col < field[row].length; col++) {
+            jsField[row][col] = new String(String.valueOf(field[row][col]));
+        }
+    }
+
+    int[] step = current.bot().makeMove(jsField, String.valueOf(current.side()));
     if (!canMakeMove(step)) {
       return BotStatus.LOSE;
     }
