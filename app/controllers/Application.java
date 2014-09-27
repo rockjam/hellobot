@@ -27,6 +27,9 @@ public class Application extends Controller {
     public static void translation() {
       render();
     }
+    public static void main() {
+      render();
+    }
 
 
 }

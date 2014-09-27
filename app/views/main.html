@@ -59,7 +59,15 @@
                         });
                 return false;
             });
-
+            $("#main").click(function() {
+                $.get(
+                        "@@{Application.main()}",
+                        {},
+                        function(e) {
+                            $("article").html(e);
+                        });
+                return false;
+            });
         });
     </script>
 #{get 'moreScripts' /}
@@ -81,14 +89,17 @@
     <nav>
 
         <ul class="hr">
-            <li><a href="#">#</a></li>
+            <li><a href="#" id="main">#</a></li>
             <li><a href="#" id="create_bot">Создать бота</a></li>
             <li><a href="#" id="translation">Трансляции</a></li>
             <li><a href="#" id="faq">FAQ</a></li>
         </ul>
     </nav>
     <article></article>
-    <footer></footer>
+    <footer>
+        <p>©Разработано на HackDay#32</p>
+        <p>2014</p>
+    </footer>
 </div>
 </body>
 </html>

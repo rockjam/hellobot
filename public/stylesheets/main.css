@@ -10,7 +10,7 @@ body {
 }
 
 p {
-    padding: 10px 0;
+    padding: 10px 20px;
 }
 
 input {
@@ -36,10 +36,11 @@ ul.hr li a, ul.hr li a:hover, ul.hr li a:active, ul.hr li a:focus {
 header {
     background-color: #E2E2E2;
 }
-
-nav {
+nav, footer {
     background-color: #5967CF;
-    padding: 8px 10px;
+}
+nav {
+   padding: 8px 10px;
     color: #fff;
     border-radius: 5px;
 }
