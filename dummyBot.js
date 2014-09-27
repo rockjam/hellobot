@@ -1,4 +1,4 @@
-function makeMove(field) {
-    print("сам дурак");
+function makeMove(field, side) {
+    print(side);
     return [0,0];
 }
