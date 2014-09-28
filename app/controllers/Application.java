@@ -1,34 +1,52 @@
 package controllers;
 
+import models.Bot;
 import models.People;
 import play.mvc.Controller;
 
+import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class Application extends Controller {
 
   public static void index(Long firstId, Long secondId) {
-    render(firstId, secondId);
+    List<Bot> rivals = Bot.findAll();
+    render(firstId, secondId, rivals);
   }
 
-  
-    public static void registration() {render();}
+  public static void prepareGame(String sourceCode) {
+    Bot bot = new Bot();
+    bot.setName(String.format("test-bot-at-%s", new SimpleDateFormat().format(new Date())));
+    System.out.println("bot.getName() = " + bot.getName());
 
-    public static void saveUser(People user) {
-      List<String> names = People.find("name = ?", user.getName()).fetch();
-      if (names.isEmpty()) {
-        user.save();
-        renderTemplate("@login");
-      } else {
-        //TODO пользователь с таким именем уже существует
-      }
-    }
+    String path = String.format("bots%sTicTacToe%s%s.js", File.separator, File.separator, bot.getName());
+    bot.setPath(path);
+    bot._save();
 
-    public static void login() {
+    renderJSON(bot.getId());
+  }
+
+  public static void registration() {
+    render();
+  }
+
+  public static void saveUser(People user) {
+    List<String> names = People.find("name = ?", user.getName()).fetch();
+    if (names.isEmpty()) {
+      user.save();
       renderTemplate("@login");
+    } else {
+      //TODO пользователь с таким именем уже существует
     }
+  }
+
+  public static void login() {
+    renderTemplate("@login");
+  }
 
   public static void signIn(String name, String pass) throws NoSuchAlgorithmException {
     List<People> peopleList = People.find("name = ?", name).fetch();

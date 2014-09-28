@@ -36,26 +36,32 @@ public class TicTacToe implements Game {
     this.turns = new F.T2<>(first, second);
   }
 
+  public TicTacToe(char[][] field, String path1, String path2) {
+    this.field = field;
+    this.first = new Player('x', path1);
+    this.second = new Player('o', path2);
+    this.turns = new F.T2<>(first, second);
+  }
+
   public TicTacToe(Long botId1, Long botId2) {
-    this(new char[][]{
+    this(getEmptyField(), botId1, botId2);
+  }
+
+  public static char[][] getEmptyField()
+  {
+    return new char[][]{
         {'-', '-', '-'},
         {'-', '-', '-'},
         {'-', '-', '-'}
-    }, botId1, botId2);
-  }
-
-  @Deprecated
-  public void init(String path1, String path2) {
-    first = new Player('x', path1);
-    second = new Player('o', path2);
+    };
   }
 
   public TicTacToeState step() {
     final BotStatus state = nextStep();
     if (EnumSet.of(BotStatus.LOSE, BotStatus.TIE, BotStatus.PLAY).contains(state)) {
-      return new TicTacToeState(state, field);
+      return new TicTacToeState(state, field, first.getLog(), second.getLog());
     }
-    return new TicTacToeState(state, field, turns._2.bot().getName());
+    return new TicTacToeState(state, field, turns._2.bot().getName(), first.getLog(), second.getLog());
   }
 
   public BotStatus nextStep() {
@@ -69,6 +75,8 @@ public class TicTacToe implements Game {
     }
 
     int[] step = current.strategy().makeMove(jsField, String.valueOf(current.side()));
+    current.getLog().toString();
+
     if (!canMakeMove(step)) {
       return BotStatus.LOSE;
     }
@@ -140,13 +148,15 @@ public class TicTacToe implements Game {
     private final BotStatus state;
     private final String message;
     private final char[][] field;
-    private final String winner;
+    private String winner;
+    private String firstLog;
+    private String secondLog;
 
-    public TicTacToeState(BotStatus state, char[][] field) {
-      this(state, field, null);
+    public TicTacToeState(BotStatus state, char[][] field, String firstLog, String secondLog) {
+      this(state, field, null, firstLog, secondLog);
     }
 
-    public TicTacToeState(BotStatus state, char[][] field, String winner) {
+    public TicTacToeState(BotStatus state, char[][] field, String winner, String firstLog, String secondLog) {
       this.state = state;
       this.message = state.message;
       this.field = field;
