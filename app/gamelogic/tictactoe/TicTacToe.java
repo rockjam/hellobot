@@ -47,8 +47,7 @@ public class TicTacToe implements Game {
     this(getEmptyField(), botId1, botId2);
   }
 
-  public static char[][] getEmptyField()
-  {
+  public static char[][] getEmptyField() {
     return new char[][]{
         {'-', '-', '-'},
         {'-', '-', '-'},
@@ -148,9 +147,9 @@ public class TicTacToe implements Game {
     private final BotStatus state;
     private final String message;
     private final char[][] field;
-    private String winner;
-    private String firstLog;
-    private String secondLog;
+    private final String winner;
+    private final String firstLog;
+    private final String secondLog;
 
     public TicTacToeState(BotStatus state, char[][] field, String firstLog, String secondLog) {
       this(state, field, null, firstLog, secondLog);
@@ -161,6 +160,8 @@ public class TicTacToe implements Game {
       this.message = state.message;
       this.field = field;
       this.winner = winner;
+      this.firstLog = firstLog;
+      this.secondLog = secondLog;
     }
 
     public boolean isPlay() {

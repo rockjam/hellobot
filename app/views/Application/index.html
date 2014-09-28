@@ -11,7 +11,7 @@
 
     $(function () {
                 var codeEditor = document.getElementById("code-editor");
-                var myCodeMirror = CodeMirror.fromTextArea(codeEditor, {
+                var codeMirror = CodeMirror.fromTextArea(codeEditor, {
                     value:"function",
                     theme:"lesser-dark",
                     indentUnit:"3",
@@ -19,8 +19,17 @@
                     dragDrop:"false"
 
                 });
+                var logWriter = document.getElementById("log-writer");
+                var logMirror = CodeMirror.fromTextArea(logWriter, {
+                    value:"function",
+                    theme:"lesser-dark",
+                    indentUnit:"3",
+                    dragDrop:"false",
+                    readOnly:"true"
+                });
 
                 //myCodeMirror.doc.getValue()
+                //myCodeMirror.doc.setValue("hello")
 
                 var socket = new WebSocket("@@{Games.ticTacToe}");
 
@@ -52,6 +61,9 @@
                             table.rows[i].cells[j].appendChild(myImage);
                         }
                     }
+                    logMirror.doc.setValue(object.secondLog);//какой из логов писать????
+//                    console.log(object.firstLog);
+//                    console.log(object.secondLog);
                     if (object.state == 'WIN') {
                         $('.result').html(object.message + object.winner);
                     } else {
@@ -93,10 +105,10 @@
             </table>
             <div style=" width:100%;clear:both;"></div>
         </div>
-        <div id="gameLog"><textarea placeholder="Нажми Play для старта. Сюда будет выводиться лог" class="log"></textarea></div>
+        <div id="gameLog"><textarea placeholder="Нажми Play для старта. Сюда будет выводиться лог" class="log" id="log-writer"></textarea></div>
     </div>
     <div id="rightColumn">
-        <textarea class="cod"></textarea><br/>
+        <textarea class="cod" id="code-editor"></textarea><br/>
         <button>Play</button>
         <button class="right">Save</button>
     </div>
