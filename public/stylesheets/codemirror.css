@@ -319,8 +319,7 @@ span.CodeMirror-selectedtext { background: none; }
 }
 
 .cm-s-lesser-dark.CodeMirror {
-    width: 660px;
-    min-width: 470px;
+    width: 100%;
     margin-top: 10px;
 }
 /*

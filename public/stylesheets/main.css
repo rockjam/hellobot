@@ -106,7 +106,7 @@ a#register, a#login {
 }
 
 #field {
-    width: 500px;
+    width: 56%;
     background: url(/public/images/bord.png) no-repeat;
     border-radius: 20px;
 }
@@ -158,10 +158,11 @@ input[type=radio] {
 
 #cod {
     padding-right: 25px;
+    width: 41%;
 }
 
 #gameLog {
-    width: 100%;
+    width: 98%;
 }
 
 .show-hide {
