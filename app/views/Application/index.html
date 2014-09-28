@@ -54,7 +54,19 @@
                             socket.send(id);
                             socket.send($("input[name=rivalId]:checked").val());
                         };
-
+                        function showResult () {
+                            $('.modal-window').fadeIn(function () {
+                                $('.window-container').addClass('visible');
+                            });
+                        }
+                        $('.close, .modal-window').click(function () {
+                            $('.modal-window').fadeOut().end().find('.window-container').removeClass('visible');
+                            return false;
+                        });
+                        $('.window-container').click(function (event) {
+                            event.stopPropagation()
+                            return false;
+                        });
                         function showMessage(message) {
                             var object = JSON.parse(message);
                             var field = object.field;
@@ -75,14 +87,17 @@
                             }
                             logMirror.doc.setValue(object.firstLog);
                             if (object.state == 'WIN') {
+                                showResult ();
                                 $('.result').html(object.message + object.winner);
                             } else {
                                 if (object.state != 'PLAY') {
+                                    showResult ();
                                     $('.result').html(object.message);
                                 }
                             }
                         }
                     }).fail(function (e) {
+                        showResult ();
                         $('.result').html(e.error);
                     });
                 });
@@ -98,7 +113,7 @@
             <label class="text">Bot name: </label><input type="text" name="bot-name" id="bot-name"/><br/>
             <label class="text">Bot code:</label>
             <textarea class="cod" id="code-editor"></textarea><br/>
-            <button id="play-button">Play</button>
+            <button id="play-button">RUN</button>
         </div>
         <div id="field">
             <table id="game-pole">
