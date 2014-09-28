@@ -2,9 +2,14 @@ package controllers;
 
 import models.Bot;
 import models.People;
+import play.Logger;
 import play.mvc.Controller;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
@@ -19,13 +24,24 @@ public class Application extends Controller {
   }
 
   public static void prepareGame(String sourceCode) {
+    System.out.println("sourceCode = [" + sourceCode + "]");
     Bot bot = new Bot();
     bot.setName(String.format("test-bot-at-%s", new SimpleDateFormat().format(new Date())));
-    System.out.println("bot.getName() = " + bot.getName());
 
     String path = String.format("bots%sTicTacToe%s%s.js", File.separator, File.separator, bot.getName());
-    bot.setPath(path);
-    bot._save();
+    try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(path))) {
+      BufferedWriter out = new BufferedWriter(writer);
+      out.write(sourceCode);
+      out.flush();
+      out.close();
+
+      bot.setPath(path);
+      bot._save();
+    } catch (IOException ex) {
+      bot._delete();
+      renderJSON("{\"error\":\"Source code not saved\"}");
+      Logger.error(ex, "Save file error");
+    }
 
     renderJSON(bot.getId());
   }
