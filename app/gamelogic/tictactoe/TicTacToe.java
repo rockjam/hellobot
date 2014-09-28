@@ -7,19 +7,6 @@ import java.util.EnumSet;
 
 public class TicTacToe implements Game {
 
-  enum BotStatus {
-    WIN("Игра окончена! Победитель: "),
-    LOSE("Игра закончилась преждевременно"),
-    TIE("Ничья"),
-    PLAY("");
-
-    public String message;
-
-    BotStatus(String message) {
-      this.message = message;
-    }
-  }
-
   private static final int FIELD_SIZE = 3;
   private static final int MAX_INDEX = FIELD_SIZE - 1;
 
