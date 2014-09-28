@@ -78,10 +78,9 @@ ul.hr li a, .show-hide {
 
 .zag {
     font-size: 17px;
-}
-.zag {
     font-weight: 800;
 }
+
 a#register, a#login {
     color:#000;
 }
@@ -94,9 +93,7 @@ a#register, a#login {
 #game-pole {
     width: 500px;
     height: 500px;
-    border-radius: 5px;
     border-collapse: collapse;
-
     background: url(/public/images/bord.png) no-repeat;
     border-radius: 20px;
 }
@@ -122,8 +119,17 @@ a#register, a#login {
 }
 
 footer {
-    height: 30px;
+    height: 76px;
     color: #ff9e59;
+}
+
+.copy {
+    margin: -22px 0px;
+    color: #599eff
+}
+.blockGit {
+    margin: 0 auto;
+    width: 75px;
 }
 
 .home {
@@ -266,4 +272,7 @@ input[type=radio]:checked + label {
     float: right;
     margin-bottom: 10px;
     margin: -10px;
+}
+img.git-hub {
+    max-width: 76px;
 }
