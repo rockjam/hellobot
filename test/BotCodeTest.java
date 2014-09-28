@@ -40,8 +40,6 @@ public class BotCodeTest extends Assert {
         game.step();
         assertThat(game.gameOver(), is(false));
     }
-
-    assertThat(game.gameOver(), is(true));
   }
 
   @Test

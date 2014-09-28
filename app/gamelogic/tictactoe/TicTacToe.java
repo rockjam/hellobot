@@ -41,6 +41,7 @@ public class TicTacToe implements Game {
     this.first = new Player('x', path1);
     this.second = new Player('o', path2);
     this.turns = new F.T2<>(first, second);
+
   }
 
   public TicTacToe(Long botId1, Long botId2) {
