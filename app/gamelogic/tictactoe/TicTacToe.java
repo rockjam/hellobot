@@ -3,19 +3,22 @@ package gamelogic.tictactoe;
 import gamelogic.Game;
 import play.libs.F;
 
+import java.util.EnumSet;
+
 public class TicTacToe implements Game {
 
   enum BotStatus {
-    WIN,
-    LOSE,
-    PLAYING
-  }
+    WIN("Игра окончена! Победитель: "),
+    LOSE("Игра закончилась преждевременно"),
+    TIE("Ничья"),
+    PLAY("");
 
-  enum GameState {
-    PLAY,
-    OVER
-  }
+    public String message;
 
+    BotStatus(String message) {
+      this.message = message;
+    }
+  }
 
   private static final int FIELD_SIZE = 3;
   private static final int MAX_INDEX = FIELD_SIZE - 1;
@@ -54,31 +57,24 @@ public class TicTacToe implements Game {
   }
 
   public TicTacToeState step() {
-    if (nextStep() != BotStatus.PLAYING) {
-      return new TicTacToeState(
-          GameState.OVER,
-          field,
-          first.getLog(),
-          second.getLog());
+    final BotStatus state = nextStep();
+    if (EnumSet.of(BotStatus.LOSE, BotStatus.TIE, BotStatus.PLAY).contains(state)) {
+      return new TicTacToeState(state, field, first.getLog(), second.getLog());
     }
-    return new TicTacToeState(
-        GameState.PLAY,
-        field,
-        first.getLog(),
-        second.getLog());
+    return new TicTacToeState(state, field, turns._2.bot().getName(), first.getLog(), second.getLog());
   }
 
   public BotStatus nextStep() {
     Player current = turns._1;
 
-    String [][] jsField = new String [FIELD_SIZE][FIELD_SIZE];
-    for(int row=0; row < field.length; ++row) {
-        for (int col=0; col < field[row].length; col++) {
-            jsField[row][col] = new String(String.valueOf(field[row][col]));
-        }
+    String[][] jsField = new String[FIELD_SIZE][FIELD_SIZE];
+    for (int row = 0; row < field.length; ++row) {
+      for (int col = 0; col < field[row].length; col++) {
+        jsField[row][col] = String.valueOf(field[row][col]);
+      }
     }
 
-    int[] step = current.bot().makeMove(jsField, String.valueOf(current.side()));
+    int[] step = current.strategy().makeMove(jsField, String.valueOf(current.side()));
     current.getLog().toString();
 
     if (!canMakeMove(step)) {
@@ -86,28 +82,42 @@ public class TicTacToe implements Game {
     }
     applyStep(step, current.side());
     turns = new F.T2<>(turns._2, turns._1);
-    return gameStatus();
+    return botStatus();
   }
 
-  private BotStatus gameStatus() {
+  private BotStatus botStatus() {
     if (gameOver()) {
       return BotStatus.WIN;
     }
-    return BotStatus.PLAYING;
+    if (fieldIsFull()) {
+      return BotStatus.TIE;
+    }
+    return BotStatus.PLAY;
+  }
+
+  private boolean fieldIsFull() {
+    for (char[] rows : field) {
+      for (char cols : rows) {
+        if (cols == '-') {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
   public boolean gameOver() {
-    return isLineCompleted(1, 0, 0, 1)
-        || isLineCompleted(0, 0, 0, 1)
-        || isLineCompleted(2, 0, 0, 1)
-        || isLineCompleted(0, 0, 1, 0)
-        || isLineCompleted(0, 1, 1, 0)
-        || isLineCompleted(0, 2, 1, 0)
-        || isLineCompleted(2, 0, -1, 1)
-        || isLineCompleted(0, 0, 1, 1);
+    return isWinLine(1, 0, 0, 1)
+        || isWinLine(0, 0, 0, 1)
+        || isWinLine(2, 0, 0, 1)
+        || isWinLine(0, 0, 1, 0)
+        || isWinLine(0, 1, 1, 0)
+        || isWinLine(0, 2, 1, 0)
+        || isWinLine(2, 0, -1, 1)
+        || isWinLine(0, 0, 1, 1);
   }
 
-  public boolean isLineCompleted(int x, int y, int dx, int dy) {
+  public boolean isWinLine(int x, int y, int dx, int dy) {
     boolean result = true;
 
     if (field[x][y] == '-') return false;
@@ -135,21 +145,26 @@ public class TicTacToe implements Game {
   }
 
   public final class TicTacToeState {
-    private final GameState state;
+    private final BotStatus state;
+    private final String message;
     private final char[][] field;
     private String winner;
     private String firstLog;
     private String secondLog;
 
-    TicTacToeState(GameState state, char[][] field, String firstLog, String secondLog) {
+    public TicTacToeState(BotStatus state, char[][] field, String firstLog, String secondLog) {
+      this(state, field, null, firstLog, secondLog);
+    }
+
+    public TicTacToeState(BotStatus state, char[][] field, String winner, String firstLog, String secondLog) {
       this.state = state;
+      this.message = state.message;
       this.field = field;
-      this.firstLog = firstLog;
-      this.secondLog = secondLog;
+      this.winner = winner;
     }
 
     public boolean isPlay() {
-      return state == GameState.PLAY;
+      return state == BotStatus.PLAY;
     }
 
     public char[][] getField() {

@@ -13,13 +13,13 @@ public class Hour2 extends Assert {
     };
 
     TicTacToe ticTacToe = new TicTacToe(field, "", "");
-    assertFalse(ticTacToe.isLineCompleted(0, 0, 0, 1));
-    assertTrue(ticTacToe.isLineCompleted(1, 0, 0, 1));
-    assertTrue(ticTacToe.isLineCompleted(2, 0, 0, 1));
+    assertFalse(ticTacToe.isWinLine(0, 0, 0, 1));
+    assertTrue(ticTacToe.isWinLine(1, 0, 0, 1));
+    assertTrue(ticTacToe.isWinLine(2, 0, 0, 1));
 
-    assertFalse(ticTacToe.isLineCompleted(0, 0, 1, 0));
-    assertFalse(ticTacToe.isLineCompleted(0, 1, 1, 0));
-    assertFalse(ticTacToe.isLineCompleted(0, 2, 1, 0));
+    assertFalse(ticTacToe.isWinLine(0, 0, 1, 0));
+    assertFalse(ticTacToe.isWinLine(0, 1, 1, 0));
+    assertFalse(ticTacToe.isWinLine(0, 2, 1, 0));
   }
 
 
@@ -31,8 +31,8 @@ public class Hour2 extends Assert {
         {'o', 'o', 'x'}
     };
     TicTacToe ticTacToe = new TicTacToe(field, "", "");
-    assertFalse(ticTacToe.isLineCompleted(2, 0, -1, 1));
-    assertTrue(ticTacToe.isLineCompleted(0, 0, 1, 1));
+    assertFalse(ticTacToe.isWinLine(2, 0, -1, 1));
+    assertTrue(ticTacToe.isWinLine(0, 0, 1, 1));
   }
 
 }

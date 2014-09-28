@@ -7,17 +7,17 @@
     var zero = new Image(94, 94);
     zero.src = '/public/images/null.png';
     var dummy = new Image(94, 94);
-    dummy.src = '/public/images/empty.png'
+    dummy.src = '/public/images/empty.png';
 
     $(function () {
-                var socket = new WebSocket("ws://localhost:9000/games/ticTacToe");
+                var socket = new WebSocket("@@{Games.ticTacToe}");
 
                 socket.onmessage = function (event) {
                     var incomingMessage = event.data;
                     showMessage(incomingMessage);
                 };
 
-                socket.onopen = function() {
+                socket.onopen = function () {
                     socket.send('${firstId}');
                     socket.send('${secondId}');
                 };
@@ -40,32 +40,50 @@
                             table.rows[i].cells[j].appendChild(myImage);
                         }
                     }
-                    if (object.state == 'OVER') {
-                        $('.result').html('Игра окончена');
+                    if (object.state == 'WIN') {
+                        $('.result').html(object.message + object.winner);
+                    } else {
+                        if (object.state != 'PLAY') {
+                            $('.result').html(object.message);
+                        }
                     }
                 }
             }
     );
 
 </script>
-
-<div id="field">
-    <table id="game-pole">
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-    </table>
+<div id="content">
+    <div id="leftColumn">
+        <div id="avatar">*{для примера}*
+            <img src="/public/images/avatar/ava2.png" class="avatar"><br />
+            <p>Типа логин и непонятная штука с многоточием</p>
+        </div>
+        <div id="field">
+            <table id="game-pole">
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+            <div style=" width:100%;clear:both;"></div>
+        </div>
+        <div id="gameLog"><textarea placeholder="Нажми Play для старта. Сюда будет выводиться лог" class="log"></textarea></div>
+    </div>
+    <div id="rightColumn">
+        <textarea class="cod"></textarea><br />
+        <button>Play</button><button class="right">Save</button>
+    </div>
+    <div style=" width:100%;clear:both;"></div>
+    *{<div class="result"></div>}*
 </div>
-<div class="result"></div>

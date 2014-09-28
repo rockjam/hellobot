@@ -2,28 +2,32 @@ package gamelogic.tictactoe;
 
 import java.io.StringWriter;
 import java.io.Writer;
+import models.Bot;
 
 public class Player {
-
-  private final char side;
+  
   private final Bot bot;
+  private final char side;
+  private final Strategy strategy;
   private final StringWriter logWriter;
 
+  @Deprecated
   public Player(char side, String path) {
     this.side = side;
     this.logWriter = new StringWriter();
-    this.bot = BotCreation.createBot(path, this.logWriter, this.logWriter);
-
+    this.bot = null;
+    this.strategy = StrategyCreation.createBot(path, this.logWriter, this.logWriter);
   }
 
   public Player(char side, Long id) {
     this.side = side;
     this.logWriter = new StringWriter();
-    this.bot = BotCreation.createBot(id, this.logWriter, this.logWriter);
+    this.bot = Bot.findById(id);
+    this.strategy = StrategyCreation.createBot(bot.getPath(), this.logWriter, this.logWriter);
   }
 
-  public Bot bot() {
-    return bot;
+  public Strategy strategy() {
+    return strategy;
   }
 
   public char side() {
@@ -32,4 +36,7 @@ public class Player {
 
   public String getLog() { return logWriter.toString(); }
 
+  public Bot bot() {
+    return bot;
+  }
 }

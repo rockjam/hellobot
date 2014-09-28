@@ -1,6 +1,6 @@
 package gamelogic.tictactoe;
 
 
-public interface Bot {
+public interface Strategy {
   public int[] makeMove(String[][] field, String symbol);
 }

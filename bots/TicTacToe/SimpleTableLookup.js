@@ -1,4 +1,4 @@
-//Simplest Strategy – Heuristic Preferences via Table Lookup
+﻿//Simplest Strategy – Heuristic Preferences via Table Lookup
 
 var EMPTY = '-';
 var preferredMoves =
