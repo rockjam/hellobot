@@ -22,6 +22,14 @@
 
                 //myCodeMirror.doc.getValue()
 
+                var gameOverSound = document.getElementById("game-over");
+
+                function playGameOverSound() {
+                    gameOverSound.pause();
+                    gameOverSound.currentTime = 0;
+                    gameOverSound.play();
+                }
+
                 var socket = new WebSocket("@@{Games.ticTacToe}");
                 $("#play-button").click(function () {
                     $.ajax({
@@ -61,9 +69,11 @@
                             }
                             if (object.state == 'WIN') {
                                 $('.result').html(object.message + object.winner);
+                                playGameOverSound();
                             } else {
                                 if (object.state != 'PLAY') {
                                     $('.result').html(object.message);
+                                    playGameOverSound();
                                 }
                             }
                         }

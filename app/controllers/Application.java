@@ -46,6 +46,10 @@ public class Application extends Controller {
     renderJSON(bot.getId());
   }
 
+  public static void pong() {
+    render();
+  }
+
   public static void registration() {
     render();
   }
