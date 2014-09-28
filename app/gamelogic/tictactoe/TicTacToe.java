@@ -25,7 +25,7 @@ public class TicTacToe implements Game {
 
   private final char[][] field;
   private Player first;
-  private Player second;
+  private Player second;//это наш враг
 
   private F.Tuple<Player, Player> turns;
 

@@ -73,10 +73,7 @@
                                     table.rows[i].cells[j].appendChild(myImage);
                                 }
                             }
-                            logMirror.doc.setValue(object.secondLog);//какой из логов писать????
-//                    console.log(object.firstLog);
-//                    console.log(object.secondLog);
-
+                            logMirror.doc.setValue(object.firstLog);
                             if (object.state == 'WIN') {
                                 $('.result').html(object.message + object.winner);
                             } else {
