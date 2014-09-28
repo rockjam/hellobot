@@ -1,6 +1,11 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
-
+<style>
+    .winner {
+        background-color: #2AF74B;
+        border-radius: 50%;
+    }
+</style>
 <script>
     var krest = new Image(94, 94);
     krest.src = '/public/images/krest.png';
@@ -86,6 +91,9 @@
                             }
                             logMirror.doc.setValue(object.firstLog);
                             if (object.state == 'WIN') {
+                                $($(table.rows[object.winFields[0][0]].cells[object.winFields[0][1]]).children()).addClass("winner");
+                                $($(table.rows[object.winFields[1][0]].cells[object.winFields[1][1]]).children()).addClass("winner");
+                                $($(table.rows[object.winFields[2][0]].cells[object.winFields[2][1]]).children()).addClass("winner");
                                 showResult ();
                                 $('.result').html(object.message + object.winner);
                             } else {

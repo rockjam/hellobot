@@ -60,7 +60,7 @@ public class TicTacToe implements Game {
     if (EnumSet.of(BotStatus.LOSE, BotStatus.TIE, BotStatus.PLAY).contains(state)) {
       return new TicTacToeState(state, field, first.getLog(), second.getLog());
     }
-    return new TicTacToeState(state, field, turns._2.bot().getName(), first.getLog(), second.getLog());
+    return new TicTacToeState(state, field, turns._2.bot().getName(), first.getLog(), second.getLog(), getWinLine());
   }
 
   public BotStatus nextStep() {
@@ -74,7 +74,6 @@ public class TicTacToe implements Game {
     }
 
     int[] step = current.strategy().makeMove(jsField, String.valueOf(current.side()));
-    current.getLog().toString();
 
     if (!canMakeMove(step)) {
       return BotStatus.LOSE;
@@ -131,6 +130,34 @@ public class TicTacToe implements Game {
     return result;
   }
 
+  public Integer[][] getWinLine() {
+    if (isWinLine(1, 0, 0, 1)) {
+      return new Integer[][]{{1, 0}, {1, 1}, {1, 2}};
+    }
+    if (isWinLine(0, 0, 0, 1)) {
+      return new Integer[][]{{0, 0}, {0, 1}, {0, 2}};
+    }
+    if (isWinLine(2, 0, 0, 1)) {
+      return new Integer[][]{{2, 0}, {2, 1}, {2, 2}};
+    }
+    if (isWinLine(0, 0, 1, 0)) {
+      return new Integer[][]{{0, 0}, {1, 0}, {2, 0}};
+    }
+    if (isWinLine(0, 1, 1, 0)) {
+      return new Integer[][]{{0, 1}, {1, 1}, {2, 1}};
+    }
+    if (isWinLine(0, 2, 1, 0)) {
+      return new Integer[][]{{0, 2}, {1, 2}, {2, 2}};
+    }
+    if (isWinLine(2, 0, -1, 1)) {
+      return new Integer[][]{{2, 0}, {1, 1}, {0, 2}};
+    }
+    if (isWinLine(0, 0, 1, 1)) {
+      return new Integer[][]{{0, 0}, {1, 1}, {2, 2}};
+    }
+    return new Integer[][]{};
+  }
+
   private void applyStep(int[] step, char symbol) {
     int x = step[0];
     int y = step[1];
@@ -150,18 +177,20 @@ public class TicTacToe implements Game {
     private final String winner;
     private final String firstLog;
     private final String secondLog;
+    private final Integer[][] winFields;
 
     public TicTacToeState(BotStatus state, char[][] field, String firstLog, String secondLog) {
-      this(state, field, null, firstLog, secondLog);
+      this(state, field, null, firstLog, secondLog, new Integer[][]{});
     }
 
-    public TicTacToeState(BotStatus state, char[][] field, String winner, String firstLog, String secondLog) {
+    public TicTacToeState(BotStatus state, char[][] field, String winner, String firstLog, String secondLog, Integer[][] winFields) {
       this.state = state;
       this.message = state.message;
       this.field = field;
       this.winner = winner;
       this.firstLog = firstLog;
       this.secondLog = secondLog;
+      this.winFields = winFields;
     }
 
     public boolean isPlay() {
