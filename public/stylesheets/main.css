@@ -5,7 +5,7 @@
 
 body {
     font-family: monospace, 'Ubuntu Mono';
-    font-size: 14px ;
+    font-size: 16px ;
     background-color: #E0E0E0;
 }
 
@@ -24,16 +24,15 @@ ul.hr {
 ul.hr li {
     display: inline;
     margin-right: 5px;
-    text-shadow: 0.1em 0.1em 0.2em black;
-    font-size: 32px;
+        text-shadow: 0.1em 0.1em 0.2em black;
+    font-size: 20px;
     padding: 5px 55px;
 }
 
 ul.hr li a, ul.hr li a:hover, ul.hr li a:active, ul.hr li a:focus, .show-hide{
     text-decoration: none;
 }
-
-ul.hr li a, ul.hr li a:hover, ul.hr li a:active, ul.hr li a:focus, nav, footer, .show-hide {
+ul.hr li a:hover, ul.hr li a:active, ul.hr li a:focus, nav, footer {
     color: #fff;
 }
 
@@ -41,10 +40,10 @@ header {
     background-color: #E2E2E2;
 }
 nav, footer {
-    background-color: #5967CF;
-}
-nav, footer {
-   padding: 8px 10px;
+    background-color: #3c3f41;
+    padding: 8px 10px;
+    border-bottom: 2px GROOVE #cccccc;
+    border-top: 2px GROOVE #cccccc;
 }
 
 #container {
@@ -71,6 +70,10 @@ nav, footer {
 
 article {
     padding: 10px;
+    background: #3c3f41;
+}
+ul.hr li a, .show-hide {
+    color: #599eff;
 }
 
 .zag {
@@ -125,6 +128,7 @@ a#register, a#login {
 
 footer {
     height: 30px;
+    color: #ff9e59;
 }
 
 .home {
@@ -156,10 +160,15 @@ input[type=radio] {
 
 .show-hide {
     float: right;
-    margin-top: -50px;
+    margin-top: -38px;
+    font-size: 14px;
+}
+.text {
+    color: #EBEFE7;
 }
 
 input[type=radio] + label {
+    background: #85858c;
     width: 85%;
     display: inline-block;
     margin: -2px;
@@ -169,16 +178,8 @@ input[type=radio] + label {
     line-height: 20px;
     color: #333;
     text-align: center;
-    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
     vertical-align: middle;
     cursor: pointer;
-    background-color: #f5f5f5;
-    background-image: -moz-linear-gradient(top, #fff, #e6e6e6);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#e6e6e6));
-    background-image: -webkit-linear-gradient(top, #fff, #e6e6e6);
-    background-image: -o-linear-gradient(top, #fff, #e6e6e6);
-    background-image: linear-gradient(to bottom, #efefef, #efefef);
-    background-repeat: repeat-x;
     border: 1px solid #aaa;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe6e6e6', GradientType=0);
     filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
@@ -188,10 +189,26 @@ input[type=radio] + label {
 }
 
 input[type=radio]:checked + label {
-    background-image: none;
+    background: #626266;
     outline: 0;
     -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
     -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
-    background-color: #e0e0e0;
+    color: #fff;
+}
+
+#play-button {
+    left: 77px;
+    position: relative;
+    background-image: radial-gradient(#006308, #2AF74B);
+    border: none;
+    border-radius: 4px;
+    width: 192px;
+    height: 36px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    margin: -11px 0px 3px 0px;
+    font-weight: 800;
+    font-size: 18px;
+    color: #fff;
+    text-shadow: 0.1em 0.1em 0.2em black;
 }
