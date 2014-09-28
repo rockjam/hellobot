@@ -169,6 +169,7 @@
                                 $($(table.rows[object.winFields[1][0]].cells[object.winFields[1][1]]).children()).addClass("winner");
                                 $($(table.rows[object.winFields[2][0]].cells[object.winFields[2][1]]).children()).addClass("winner");
                                 showResult();
+                                setTimeout(function() { showResult (); }, 600);
                                 $('.result').html(object.message + object.winner);
                                 setTimeout(function () {
                                     playSound(type + "-" + 0);
@@ -176,6 +177,8 @@
                                 }, 500);
                             } else {
                                 if (object.state != 'PLAY') {
+                                    setTimeout(function() { showResult (); }, 600);
+                                    /*    showResult ();*/
                                     showResult();
                                     $('.result').html(object.message);
                                     setTimeout(function () {
@@ -186,9 +189,11 @@
                             }
                         }
                     }).fail(function (e) {
-                        $('.modal-window').fadeIn(function () {
+                        setTimeout(function() {
+                            $('.modal-window').fadeIn(function () {
                             $('.window-container').addClass('visible');
-                        });
+                        }); }, 600);
+
                         $('.result').html(e.error);
                     });
                 });
