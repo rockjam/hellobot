@@ -96,9 +96,7 @@
     <div id="leftColumn">
         <div id="avatar">*{для примера}*
             <img src="/public/images/avatar/ava2.png" class="avatar"><br/>
-            <center>
-                <div id="rivals-block">#{bots bots: rivals, as: 'rivalId'/}</div>
-            </center>
+            <div id="rivals-block">#{bots bots: rivals, as: 'rivalId'/}</div>
         </div>
 
         <div id="field">
@@ -119,8 +117,9 @@
                     <td></td>
                 </tr>
             </table>
-            <div style=" width:100%;clear:both;"></div>
+            <div class="result"></div>
         </div>
+        <div style=" width:100%;clear:both;"></div>
         <div id="gameLog"><textarea placeholder="Нажми Play для старта. Сюда будет выводиться лог" class="log" id="log-writer"></textarea></div>
     </div>
     <div id="rightColumn">
@@ -131,5 +130,4 @@
         <button class="right">Save</button>
     </div>
     <div style=" width:100%;clear:both;"></div>
-    <div class="result"></div>
-</div>
+    </div>
