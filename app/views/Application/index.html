@@ -1,6 +1,11 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
-
+<style>
+    .winner {
+        background-color: #2AF74B;
+        border-radius: 50%;
+    }
+</style>
 <script>
     var krest = new Image(94, 94);
     krest.src = '/public/images/krest.png';
@@ -30,20 +35,19 @@
     $(function () {
                 var codeEditor = document.getElementById("code-editor");
                 var codeMirror = CodeMirror.fromTextArea(codeEditor, {
-                    value: "function",
-                    theme: "lesser-dark",
-                    indentUnit: "3",
-                    lineNumbers: "true",
-                    dragDrop: "false"
-
+                    value:"function",
+                    theme:"lesser-dark",
+                    indentUnit:"3",
+                    lineNumbers: true,
+                    dragDrop: false
                 });
                 var logWriter = document.getElementById("log-writer");
                 var logMirror = CodeMirror.fromTextArea(logWriter, {
-                    value: "function",
-                    theme: "lesser-dark",
-                    indentUnit: "3",
-                    dragDrop: "false",
-                    readOnly: "true"
+                    value:"function",
+                    theme:"lesser-dark-log",
+                    indentUnit:"3",
+                    dragDrop:"false",
+                    readOnly:"true"
                 });
 
                 //myCodeMirror.doc.getValue()
@@ -115,6 +119,19 @@
                             socket.send(botId);
                             socket.send($("input[name=rivalId]:checked").val());
                         };
+                        function showResult () {
+                            $('.modal-window').fadeIn(function () {
+                                $('.window-container').addClass('visible');
+                            });
+                        }
+                        $('.close, .modal-window').click(function () {
+                            $('.modal-window').fadeOut().end().find('.window-container').removeClass('visible');
+                            return false;
+                        });
+                        $('.window-container').click(function (event) {
+                            event.stopPropagation()
+                            return false;
+                        });
 
                         playBackSound();
 
@@ -137,16 +154,16 @@
                                 }
                             }
 
-                            var type = getType((step % 2
-                        ) ==
-                            0 ? firstName : secondName
-                        )
-                            ;
+                            var type = getType((step % 2) == 0 ? firstName : secondName);
                             step++;
 
                             playSound(type + "-" + getRandomArbitary(1, type == "drunk" ? 4 : (type == "terminator" ? 2 : 1)));
                             logMirror.doc.setValue(object.firstLog);
                             if (object.state == 'WIN') {
+                                $($(table.rows[object.winFields[0][0]].cells[object.winFields[0][1]]).children()).addClass("winner");
+                                $($(table.rows[object.winFields[1][0]].cells[object.winFields[1][1]]).children()).addClass("winner");
+                                $($(table.rows[object.winFields[2][0]].cells[object.winFields[2][1]]).children()).addClass("winner");
+                                showResult ();
                                 $('.result').html(object.message + object.winner);
                                 setTimeout(function () {
                                     playSound(type + "-" + 0);
@@ -154,6 +171,7 @@
                                 }, 500);
                             } else {
                                 if (object.state != 'PLAY') {
+                                    showResult ();
                                     $('.result').html(object.message);
                                     setTimeout(function () {
                                         playSound(type + "-" + 0);
@@ -163,6 +181,9 @@
                             }
                         }
                     }).fail(function (e) {
+                        $('.modal-window').fadeIn(function () {
+                            $('.window-container').addClass('visible');
+                        });
                         $('.result').html(e.error);
                     });
                 });
@@ -172,12 +193,12 @@
 </script>
 <div id="content">
     <div id="leftColumn">
-        <div id="avatar">*{для примера}*
-            <img src="/public/images/avatar/ava2.png" class="avatar"><br/>
-
-            <div id="rivals-block">#{bots bots: rivals, as: 'rivalId'/}</div>
+        <div class="left" id="cod">
+            <label class="text">Bot name: </label><input type="text" name="bot-name" id="bot-name"/><br/>
+            <label class="text">Bot code:</label>
+            <textarea class="cod" id="code-editor"></textarea><br/>
+            <button id="play-button">RUN</button>
         </div>
-
         <div id="field">
             <table id="game-pole">
                 <tr>
@@ -196,17 +217,15 @@
                     <td></td>
                 </tr>
             </table>
-            <div class="result"></div>
         </div>
         <div style=" width:100%;clear:both;"></div>
-        <div id="gameLog"><textarea placeholder="Нажми Play для старта. Сюда будет выводиться лог" class="log" id="log-writer"></textarea></div>
+        <div id="gameLog"><textarea class="log" id="log-writer"></textarea></div>
     </div>
     <div id="rightColumn">
-        Имя бота: <input type="text" name="bot-name" id="bot-name"/><br/>
-        Код бота:
-        <textarea class="cod" id="code-editor"></textarea><br/>
-        <button id="play-button">Play</button>
-        <button class="right">Save</button>
+        <div id="avatar">*{для примера}*
+            <img src="/public/images/avatar/ava2.png" class="avatar"><br/>
+            <div id="rivals-block">#{bots bots: rivals, as: 'rivalId'/}</div>
     </div>
+ </div>
     <div style=" width:100%;clear:both;"></div>
 </div>

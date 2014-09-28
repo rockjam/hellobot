@@ -46,64 +46,48 @@
     <audio preload="true" id="back-sound">
         <source src="@{'/public/audio/back-sound.mp3'}"/>
     </audio>
-
-
-    <script>
-        $(function () {
-            $("#register").click(function () {
-                $.get(
-                        "@@{Application.registration()}",
-                        {},
-                        function (e) {
-                            $("article").html(e);
-                        });
-                return false;
-            });
-
-            $("#login").click(function () {
-                $.get(
-                        "@@{Application.login()}",
-                        {},
-                        function (e) {
-                            $("article").html(e);
-                        });
-                return false;
-            });
-        });
-    </script>
     <script src="@{'/public/javascripts/codemirror/codemirror.js'}" type="text/javascript"></script>
     <link rel="stylesheet" href="@{'/public/stylesheets/codemirror.css'}">
     <script src="@{'/public/javascripts/codemirror/javascript.js'}" type="text/javascript"></script>
+    <script src="@{'/public/javascripts/jquery.simplemodal-1.1.1.js'}" type="text/javascript"></script>
 #{get 'moreScripts' /}
 </head>
 <body>
 <div id="wrapper">
     <header>
         <div id="container">
-            <div id="slides">
+            <div id="slides" class="display:show">
                 <img src="/public/images/slider/slide_1.png" width="900" height="480" alt="Slide 1">
                 <img src="/public/images/slider/slide_2.png" width="900" height="480" alt="Slide 2">
                 <img src="/public/images/slider/slide_3.png" width="900" height="480" alt="Slide 3">
                 <img src="/public/images/slider/slide_4.png" width="900" height="480" alt="Slide 4">
                 <img src="/public/images/slider/slide_5.png" width="900" height="480" alt="Slide 5">
+                <img src="/public/images/slider/slide_6.png" width="900" height="480" alt="Slide 6">
             </div>
         </div>
-        <div class="login-register"><a href="@{Application.login()}" id="login">Вход</a>/<a id="register" href="@{Application.registration()}">регистрация</a>
+        <div class="login-register">*{<a href="@{Application.login()}" id="login">Вход</a>/<a id="register" href="@{Application.registration()}">регистрация</a>}*
         </div>
     </header>
     <nav>
-
         <ul class="hr">
-            <li><a href="@{Application.index()}" id="index">Главная</a></li>
-            <li><a href="@{Upload.addBotForm()}" id="create_bot">Создать бота</a></li>
-            <li><a href="@{Application.translation()}" id="translation">Трансляции</a></li>
+            <li><a href="@{Application.index()}" id="index">Main</a></li>
+            <li><a href="@{Upload.addBotForm()}" id="create_bot">Create bot</a></li>
+            <li><a href="@{Application.translation()}" id="translation">Translation</a></li>
             <li><a href="@{Application.faq()}" id="faq">FAQ</a></li>
         </ul>
+        <a href="#" class="show-hide">Show/hide</a>
     </nav>
     <article>#{doLayout /}</article>
     <footer>
         <div class="right">© Разработано на HackDay#32</div>
     </footer>
+</div>
+
+<div id="modal-window" class="modal-window">
+    <div class="window-container animation">
+        <p class="result"></p>
+        <button class="close">OK</button>
+    </div>
 </div>
 </body>
 </html>

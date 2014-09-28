@@ -23,4 +23,9 @@ $(function(){
             }
         }
     });
+    $('.show-hide').click(function(){
+        $('#slides').toggle();
+        return false;
+    });
+
 });
