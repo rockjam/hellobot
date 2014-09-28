@@ -16,9 +16,9 @@ import java.util.List;
 
 public class Application extends Controller {
 
-  public static void index(Long firstId, Long secondId) {
+  public static void index() {
     List<Bot> rivals = Bot.findAll();
-    render(firstId, secondId, rivals);
+    render(rivals);
   }
 
   public static void prepareGame(Bot bot, String sourceCode) {
@@ -37,7 +37,11 @@ public class Application extends Controller {
       Logger.error(ex, "Save file error");
     }
 
-    renderJSON(bot.getId());
+    renderJSON(new Object[]{bot.getId(), bot.getName()});
+  }
+
+  public static void pong() {
+    render();
   }
 
   public static void registration() {
@@ -74,6 +78,4 @@ public class Application extends Controller {
   public static void translation() {
     render();
   }
-
-
 }

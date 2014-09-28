@@ -14,26 +14,87 @@
     var dummy = new Image(94, 94);
     dummy.src = '/public/images/empty.png';
 
+    function getRandomArbitary(min, max) {
+        return Math.round(Math.random() * (max - min) + min);
+    }
+
+    function getType(name) {
+        if ((name.toLowerCase().indexOf("drunk") > -1) || (name.toLowerCase().indexOf("пьяный") > -1)) {
+            return "drunk";
+        }
+        if ((name.toLowerCase().indexOf("terminator") > -1) || (name.toLowerCase().indexOf("hard") > -1) || (name.toLowerCase().indexOf("шварц") > -1)) {
+            return "terminator";
+        }
+        if ((name.toLowerCase().indexOf("лузер") > -1) || (name.toLowerCase().indexOf("лох") > -1) || (name.toLowerCase().indexOf("loser") > -1)) {
+            return "loser";
+        }
+
+        return getRandomArbitary(0, 1) == 0 ? "drunk" : "loser";
+    }
+
+    var codeMir;
+
     $(function () {
                 var codeEditor = document.getElementById("code-editor");
                 var codeMirror = CodeMirror.fromTextArea(codeEditor, {
-                    value:"function",
-                    theme:"lesser-dark",
-                    indentUnit:"3",
+                    value: "function",
+                    theme: "lesser-dark",
+                    indentUnit: "3",
                     lineNumbers: true,
                     dragDrop: false
                 });
+                codeMir = codeMirror;
+
                 var logWriter = document.getElementById("log-writer");
                 var logMirror = CodeMirror.fromTextArea(logWriter, {
-                    value:"function",
-                    theme:"lesser-dark-log",
-                    indentUnit:"3",
-                    dragDrop:"false",
-                    readOnly:"true"
+                    value: "function",
+                    theme: "lesser-dark-log",
+                    indentUnit: "3",
+                    dragDrop: "false",
+                    readOnly: "true"
                 });
 
                 //myCodeMirror.doc.getValue()
                 //myCodeMirror.doc.setValue("hello")
+                var sound = document.getElementById("back-sound");
+
+                function playBackSound() {
+                    sound.pause();
+                    sound.currentTime = 0;
+                    sound.play();
+                }
+
+                function stopBackSound() {
+                    sound.pause();
+                    sound.currentTime = 0;
+                }
+
+                function playSound(id) {
+                    var gameOverSound = {
+                        "drunk-0": document.getElementById("game-over"),
+                        "drunk-1": document.getElementById("xo1"),
+                        "drunk-2": document.getElementById("xo2"),
+                        "drunk-3": document.getElementById("xo3"),
+                        "drunk-4": document.getElementById("xo4"),
+                        "terminator-0": document.getElementById("terminator-game-over"),
+                        "terminator-1": document.getElementById("terminator1"),
+                        "terminator-2": document.getElementById("terminator2"),
+                        "loser-0": document.getElementById("loser-game-over"),
+                        "loser-1": document.getElementById("xo1"),
+                        "loser-2": document.getElementById("xo2"),
+                        "loser-3": document.getElementById("xo3"),
+                        "loser-4": document.getElementById("xo4")
+
+//                        "loser-1": document.getElementById("loser1"),
+//                        "loser-2": document.getElementById("xo2"),
+//                        "loser-3": document.getElementById("xo3"),
+//                        "loser-4": document.getElementById("xo4")
+                    };
+
+                    gameOverSound[id].pause();
+                    gameOverSound[id].currentTime = 0;
+                    gameOverSound[id].play();
+                }
 
                 var botId;
                 $("#play-button").click(function () {
@@ -45,9 +106,13 @@
                             "bot.name": $("#bot-name").val(),
                             sourceCode: codeMirror.doc.getValue()
                         }
-                    }).done(function (id) {
+                    }).done(function (data) {
                         var socket = new WebSocket("@@{Games.ticTacToe}");
-                        botId = id;
+                        botId = data[0];
+
+                        var firstName = data[1];
+                        var secondName = $("label[for='" + $("input[name=rivalId]:checked").attr('id') + "']").text();
+                        var step = 0;
 
                         socket.onmessage = function (event) {
                             var incomingMessage = event.data;
@@ -55,14 +120,15 @@
                         };
 
                         socket.onopen = function () {
-                            socket.send(id);
+                            socket.send(botId);
                             socket.send($("input[name=rivalId]:checked").val());
                         };
-                        function showResult () {
+                        function showResult() {
                             $('.modal-window').fadeIn(function () {
                                 $('.window-container').addClass('visible');
                             });
                         }
+
                         $('.close, .modal-window').click(function () {
                             $('.modal-window').fadeOut().end().find('.window-container').removeClass('visible');
                             return false;
@@ -71,6 +137,9 @@
                             event.stopPropagation()
                             return false;
                         });
+
+                        playBackSound();
+
                         function showMessage(message) {
                             var object = JSON.parse(message);
                             var field = object.field;
@@ -89,18 +158,33 @@
                                     table.rows[i].cells[j].appendChild(myImage);
                                 }
                             }
+
+                            var type = getType((step % 2) == 0 ? firstName : secondName);
+                            step++;
+
+                            playSound(type + "-" + getRandomArbitary(1, type == "drunk" ? 4 : (type == "terminator" ? 2 : 1)));
                             logMirror.doc.setValue(object.firstLog);
                             if (object.state == 'WIN') {
                                 $($(table.rows[object.winFields[0][0]].cells[object.winFields[0][1]]).children()).addClass("winner");
                                 $($(table.rows[object.winFields[1][0]].cells[object.winFields[1][1]]).children()).addClass("winner");
                                 $($(table.rows[object.winFields[2][0]].cells[object.winFields[2][1]]).children()).addClass("winner");
+                                showResult();
                                 setTimeout(function() { showResult (); }, 600);
                                 $('.result').html(object.message + object.winner);
+                                setTimeout(function () {
+                                    playSound(type + "-" + 0);
+                                    stopBackSound();
+                                }, 500);
                             } else {
                                 if (object.state != 'PLAY') {
                                     setTimeout(function() { showResult (); }, 600);
                                     /*    showResult ();*/
+                                    showResult();
                                     $('.result').html(object.message);
+                                    setTimeout(function () {
+                                        playSound(type + "-" + 0);
+                                        stopBackSound();
+                                    }, 600);
                                 }
                             }
                         }
@@ -116,6 +200,60 @@
             }
     );
 
+    function autoprint(t) {
+        var timeoutId;
+        var offset = 0;
+
+        function zzz() {
+            var code = "//Простейший бот, который пытается ходить по предпочтительной последователности\n" +
+                    "\n" +
+                    "//Тут можно объявить глобальные переменные для сохранения данных между ходами.\n" +
+                    "var EMPTY = '-';\n" +
+                    "var preferredMoves =\n" +
+                    "    [\n" +
+                    "        [1, 1], [0, 0], [0, 2], [2, 0], [2, 2],\n" +
+                    "        [0, 1], [1, 0], [1, 2], [2, 1]\n" +
+                    "    ];\n" +
+                    "\n" +
+                    "/* Основная функция, которая делает один ход.\n" +
+                    " * Агрументы:\n" +
+                    " * field: двумерный массив ячеек 3х3. Описывает текущее состояние игрового поля\n" +
+                    " *   Значения символов:\n" +
+                    " *    `-` - пустая ячейка\n" +
+                    " *    `x` - ячейка занята крестиком\n" +
+                    " *    `o` - ячейка занята ноликом\n" +
+                    " * my: символ игрока (`x` или `o`)\n" +
+                    " * */\n" +
+                    "function makeMove(field, my) {\n" +
+                    "\n" +
+                    "    var i;\n" +
+                    "    for (i = 0; i < preferredMoves.length; ++i) {\n" +
+                    "        //можно пользоваться print для логирования. Лог внизу страницы\n" +
+                    "        print(i);\n" +
+                    "        var move = preferredMoves[i];\n" +
+                    "        if (field[move[0]][move[1]] == EMPTY) {\n" +
+                    "            return move;\n" +
+                    "        }\n" +
+                    "    }\n" +
+                    "\n" +
+                    "    //А еще можно кидать исключения, они тоже будут писать в лог. Но лучше не кидать)\n" +
+                    "    //Да прибудет с вами undefined is not a function\n" +
+                    "    throw new Error(\"The field is full. I can't move!\");\n" +
+                    "}";
+
+            function some() {
+                codeMir.doc.setValue(code.substring(0, offset));
+                offset++;
+                if (offset > code.length) {
+                    clearTimeout(timeoutId);
+                }
+            }
+
+            some();
+        }
+
+        timeoutId = setInterval(zzz, t ? t : 10);
+    }
 </script>
 <div id="content">
     <div id="leftColumn">
@@ -146,13 +284,15 @@
         </div>
         <div style=" width:100%;clear:both;"></div>
         <label class="text">Log:</label>
+
         <div id="gameLog"><textarea class="log" id="log-writer"></textarea></div>
     </div>
     <div id="rightColumn">
         <div id="avatar">*{для примера}*
             <img src="/public/images/avatar/ava2.png" class="avatar"><br/>
+
             <div id="rivals-block">#{bots bots: rivals, as: 'rivalId'/}</div>
+        </div>
     </div>
- </div>
     <div style=" width:100%;clear:both;"></div>
 </div>

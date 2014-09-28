@@ -1,0 +1,231 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+<script>
+var krest = new Image(94, 94);
+krest.src = '/public/images/krest.png';
+var zero = new Image(94, 94);
+zero.src = '/public/images/null.png';
+var dummy = new Image(94, 94);
+dummy.src = '/public/images/empty.png';
+
+$(function () {
+
+    var codeEditor = document.getElementById("code-editor");
+    var myCodeMirror = CodeMirror.fromTextArea(codeEditor, {
+        value: "function",
+        theme: "lesser-dark",
+        indentUnit: "3",
+        lineNumbers: "true",
+        dragDrop: "false"
+
+    });
+
+    //myCodeMirror.doc.getValue()
+
+    // RequestAnimFrame: a browser API for getting smooth animations
+    window.requestAnimFrame = (function () {
+        return  window.requestAnimationFrame ||
+                window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame ||
+                window.oRequestAnimationFrame ||
+                window.msRequestAnimationFrame ||
+                function (callback) {
+                    return window.setTimeout(callback, 1000 / 60);
+                };
+    })();
+
+    window.cancelRequestAnimFrame = (function () {
+        return window.cancelAnimationFrame ||
+                window.webkitCancelRequestAnimationFrame ||
+                window.mozCancelRequestAnimationFrame ||
+                window.oCancelRequestAnimationFrame ||
+                window.msCancelRequestAnimationFrame ||
+                clearTimeout
+    })();
+
+    var ii = 0;
+
+    // Initialize canvas and required variables
+    var canvas = document.getElementById("pong-field"),
+            ctx = canvas.getContext("2d"), // Create canvas context
+            W = 500, // Window's width
+            H = 520, // Window's height
+            particles = [], // Array containing particles
+            ball = {}, // Ball object
+            paddles = [2], // Array containing two paddles
+            mouse = {}, // Mouse object to store it's current position
+            points = 0, // Varialbe to store points
+            fps = 60, // Max FPS (frames per second)
+            particlesCount = 20, // Number of sparks when ball strikes the paddle
+            particlePos = {}, // Object to contain the position of collision
+            multipler = 1, // Varialbe to control the direction of sparks
+            startBtn = {}, // Start button object
+            restartBtn = {}, // Restart button object
+            over = 0, // flag varialbe, cahnged when the game is over
+            init, // variable to initialize animation
+            paddleHit;
+
+    // Set the canvas's height and width to full screen
+    canvas.width = W;
+    canvas.height = H;
+
+
+    // Function to paint canvas
+    function paintCanvas() {
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, W, H);
+    }
+
+    // Function for creating paddles
+    function Paddle(pos) {
+        // Height and width
+        this.h = 5;
+        this.w = 150;
+
+        // Paddle's position
+        this.x = W / 2 - this.w / 2;
+        this.y = (pos == "top") ? 0 : H - this.h;
+
+    }
+
+    // Push two new paddles into the paddles[] array
+    paddles.push(new Paddle("bottom"));
+    paddles.push(new Paddle("top"));
+
+    // Ball object
+    ball = {
+        x: 50,
+        y: 50,
+        r: 5,
+        c: "white",
+        vx: 4,
+        vy: 8,
+
+        // Function for drawing ball on canvas
+        draw: function () {
+            ctx.beginPath();
+            ctx.fillStyle = this.c;
+            ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2, false);
+            ctx.fill();
+        }
+    };
+
+    // Draw everything on canvas
+    function draw() {
+        paintCanvas();
+        for (var i = 0; i < paddles.length; i++) {
+            p = paddles[i];
+
+            ctx.fillStyle = "white";
+            ctx.fillRect(p.x, p.y, p.w, p.h);
+        }
+
+        ball.draw();
+
+        //update(1,1,1,1);
+    }
+
+
+    // Function to update positions, score and everything.
+    // Basically, the main game logic is defined here
+    function update(dx, dy, p1, p2) {
+        //updateCallback(paddles, ball);
+        paddles[1].x = p1;
+        paddles[2].x = p2;
+
+//
+//        for (var i = 1; i < paddles.length; i++) {
+//            p = paddles[i];
+//            p.x = mouse.x - p.w / 2;
+//        }
+
+        ball.x += dx;
+        ball.y += dy;
+        i
+        // Move the ball
+//        ball.x += ball.vx;
+//        ball.y += ball.vy;
+
+    }
+
+
+    // Function to run when the game overs
+    function gameOver() {
+        ctx.fillStlye = "white";
+        ctx.font = "20px Arial, sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("Game Over - You scored " + points + " points!", W / 2, H / 2 + 25);
+
+        // Stop the Animation
+        cancelRequestAnimFrame(init);
+
+        // Set the over flag
+        over = 1;
+
+        // Show the restart button
+        restartBtn.draw();
+    }
+
+    // Function for running the whole animation
+    function animloop() {
+        init = requestAnimFrame(animloop);
+        draw();
+    }
+
+    // Function to execute at startup
+    function startScreen() {
+        animloop();
+        // draw();
+    }
+
+    // Show the start screen
+    startScreen();
+
+    $("#play-button").click(function () {
+        $.ajax({
+            type: "POST",
+            url: "@@{Application.prepareGame()}",
+            data: { sourceCode: myCodeMirror.doc.getValue() }
+        }).done(function (id) {
+            var socket = new WebSocket("@@{Games.ticTacToe}");
+
+            socket.onmessage = function (event) {
+                var incomingMessage = event.data;
+
+            };
+
+            socket.onopen = function () {
+                socket.send(id);
+                socket.send($("input[name=rivalId]:checked").val());
+            };
+
+
+        }).fail(function () {
+            alert("error");
+        });
+    });
+});
+</script>
+<div id="content">
+    <div id="leftColumn">
+        <div id="avatar">*{для примера}*
+            <img src="/public/images/avatar/ava2.png" class="avatar"><br/>
+            <center>
+                <div id="rivals-block">#{bots bots: rivals, as: 'rivalId'/}</div>
+            </center>
+        </div>
+        <div>
+            <canvas style="width: 500px; height: 520px;" id="pong-field"></canvas>
+        </div>
+        <div id="gameLog"><textarea placeholder="Нажми Play для старта. Сюда будет выводиться лог" class="log"></textarea></div>
+    </div>
+    <div id="rightColumn">
+        <textarea class="cod" id="code-editor"></textarea><br/>
+        <button id="play-button">Play</button>
+        <button class="right">Save</button>
+    </div>
+    <div style=" width:100%;clear:both;"></div>
+    <div class="result"></div>
+</div>
