@@ -10,6 +10,18 @@
     dummy.src = '/public/images/empty.png';
 
     $(function () {
+                var codeEditor = document.getElementById("code-editor");
+                var myCodeMirror = CodeMirror.fromTextArea(codeEditor, {
+                    value:"function",
+                    theme:"lesser-dark",
+                    indentUnit:"3",
+                    lineNumbers:"true",
+                    dragDrop:"false"
+
+                });
+
+                //myCodeMirror.doc.getValue()
+
                 var socket = new WebSocket("@@{Games.ticTacToe}");
 
                 socket.onmessage = function (event) {
@@ -81,7 +93,7 @@
         <div id="gameLog"><textarea placeholder="Нажми Play для старта. Сюда будет выводиться лог" class="log"></textarea></div>
     </div>
     <div id="rightColumn">
-        <textarea class="cod"></textarea><br />
+        <textarea class="cod" id="code-editor"></textarea><br />
         <button>Play</button><button class="right">Save</button>
     </div>
     <div style=" width:100%;clear:both;"></div>
