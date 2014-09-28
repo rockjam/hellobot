@@ -7,7 +7,6 @@
 
 .CodeMirror {
     height: 450px;
-    width: 350px;
     font-size: 12px;
 }
 
@@ -314,7 +313,16 @@ div.CodeMirror-cursors {
 /* Help users use markselection to safely style text background */
 span.CodeMirror-selectedtext { background: none; }
 
+.cm-s-lesser-dark-log.CodeMirror {
+    margin-top: 10px;
+    height: 100px;
+}
 
+.cm-s-lesser-dark.CodeMirror {
+    width: 660px;
+    min-width: 470px;
+    margin-top: 10px;
+}
 /*
 http://lesscss.org/ dark theme
 Ported to CodeMirror by Peter Kroon

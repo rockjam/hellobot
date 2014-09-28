@@ -88,6 +88,7 @@ a#register, a#login {
 
 #avatar {
     max-width: 300px;
+    margin: 0 auto;
 }
 
 #game-pole {
@@ -160,7 +161,7 @@ input[type=radio] {
 }
 
 #gameLog {
-    width: 98%;
+    width: 100%;
 }
 
 .show-hide {
@@ -203,7 +204,7 @@ input[type=radio]:checked + label {
 }
 
 #play-button {
-    left: 77px;
+    left: 180px;
     position: relative;
     background-image: radial-gradient(#006308, #2AF74B);
     border: none;
@@ -216,6 +217,7 @@ input[type=radio]:checked + label {
     font-size: 18px;
     color: #fff;
     text-shadow: 0.1em 0.1em 0.2em black;
+
 }
 
 .modal-window {
