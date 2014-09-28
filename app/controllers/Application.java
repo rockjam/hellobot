@@ -12,8 +12,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 public class Application extends Controller {
@@ -23,12 +21,8 @@ public class Application extends Controller {
     render(firstId, secondId, rivals);
   }
 
-  public static void prepareGame(String sourceCode) {
-    System.out.println("sourceCode = [" + sourceCode + "]");
-    Bot bot = new Bot();
-    bot.setName(String.format("test-bot-at-%s", new SimpleDateFormat().format(new Date())));
-
-    String path = String.format("bots%sTicTacToe%s%s.js", File.separator, File.separator, bot.getName());
+  public static void prepareGame(Bot bot, String sourceCode) {
+    String path = bot.getPath() != null ? bot.getPath() : String.format("bots%sTicTacToe%s%s.js", File.separator, File.separator, bot.getName());
     try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(path))) {
       BufferedWriter out = new BufferedWriter(writer);
       out.write(sourceCode);

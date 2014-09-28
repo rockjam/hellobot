@@ -31,14 +31,19 @@
                 //myCodeMirror.doc.getValue()
                 //myCodeMirror.doc.setValue("hello")
 
-                var socket = new WebSocket("@@{Games.ticTacToe}");
+                var botId;
                 $("#play-button").click(function () {
                     $.ajax({
                         type: "POST",
                         url: "@@{Application.prepareGame()}",
-                        data: { sourceCode: myCodeMirror.doc.getValue() }
+                        data: {
+                            "bot.id": botId,
+                            "bot.name": $("#bot-name").val(),
+                            sourceCode: codeMirror.doc.getValue()
+                        }
                     }).done(function (id) {
                         var socket = new WebSocket("@@{Games.ticTacToe}");
+                        botId = id;
 
                         socket.onmessage = function (event) {
                             var incomingMessage = event.data;
@@ -80,8 +85,8 @@
                                 }
                             }
                         }
-                    }).fail(function () {
-                        alert("error");
+                    }).fail(function (e) {
+                        $('.result').html(e.error);
                     });
                 });
 
@@ -122,6 +127,8 @@
         <div id="gameLog"><textarea placeholder="Нажми Play для старта. Сюда будет выводиться лог" class="log" id="log-writer"></textarea></div>
     </div>
     <div id="rightColumn">
+        Имя бота: <input type="text" name="bot-name" id="bot-name"/><br/>
+        Код бота:
         <textarea class="cod" id="code-editor"></textarea><br/>
         <button id="play-button">Play</button>
         <button class="right">Save</button>
