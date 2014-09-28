@@ -1,7 +1,9 @@
-import gamelogic.tictactoe.Strategy;
-import gamelogic.tictactoe.StrategyCreation;
+import gamelogic.tictactoe.*;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -10,30 +12,50 @@ public class BotCodeTest extends Assert {
 
 
   @Test
-  public void Minimax() {
+  public void Minimax_OneTurn(){
     String[][] field = {
-        {"-", "-", "-"},
-        {"-", "-", "-"},
-        {"-", "-", "-"}
+            {"-", "-", "-"},
+            {"-", "-", "-"},
+            {"-", "-", "-"}
     };
-    Strategy strategy = StrategyCreation.createBot("bots/TicTacToe/Minimax.js");
-    assertThat(strategy, notNullValue());
 
-    int[] move = strategy.makeMove(field, "x");
+    Writer writer = new OutputStreamWriter(System.out);
+    Writer errWriter = new OutputStreamWriter(System.err);
+    Strategy bot = StrategyCreation.createBot("bots/TicTacToe/Minimax.js", writer, errWriter);
+    assertThat(bot, notNullValue());
+
+    int[] move = bot.makeMove(field, "x");
     int[] expected = {1, 1};
     assertThat(move, is(expected));
   }
 
   @Test
-  public void SimpleTableLookup() {
-    String[][] field = {
-        {"-", "-", "-"},
-        {"-", "-", "-"},
-        {"-", "-", "-"}
-    };
-    Strategy strategy = StrategyCreation.createBot("bots/TicTacToe/SimpleTableLookup.js");
+  public void Minimax_VsMinimax(){
 
-    int[] move = strategy.makeMove(field, "x");
+    TicTacToe game = new TicTacToe(TicTacToe.getEmptyField(), "bots/TicTacToe/Minimax.js", "bots/TicTacToe/Minimax.js");
+
+    int turnsToDo = 10;
+    while(turnsToDo-- > 0 && !game.gameOver())
+    {
+        game.step();
+        assertThat(game.gameOver(), is(false));
+    }
+
+    assertThat(game.gameOver(), is(true));
+  }
+
+  @Test
+  public void SimpleTableLookup(){
+    String[][] field = {
+            {"-", "-", "-"},
+            {"-", "-", "-"},
+            {"-", "-", "-"}
+    };
+    Writer writer = new OutputStreamWriter(System.out);
+    Writer errWriter = new OutputStreamWriter(System.err);
+    Strategy bot = StrategyCreation.createBot("bots/TicTacToe/SimpleTableLookup.js", writer, errWriter);
+
+    int[] move = bot.makeMove(field, "x");
     int[] expected = {1, 1};
     assertThat(move, is(expected));
   }

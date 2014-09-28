@@ -12,7 +12,7 @@ public class Hour2 extends Assert {
         {'o', 'o', 'o'}
     };
 
-    TicTacToe ticTacToe = new TicTacToe(field, null, null);
+    TicTacToe ticTacToe = new TicTacToe(field, "", "");
     assertFalse(ticTacToe.isWinLine(0, 0, 0, 1));
     assertTrue(ticTacToe.isWinLine(1, 0, 0, 1));
     assertTrue(ticTacToe.isWinLine(2, 0, 0, 1));
@@ -30,7 +30,7 @@ public class Hour2 extends Assert {
         {'x', 'x', 'x'},
         {'o', 'o', 'x'}
     };
-    TicTacToe ticTacToe = new TicTacToe(field, null, null);
+    TicTacToe ticTacToe = new TicTacToe(field, "", "");
     assertFalse(ticTacToe.isWinLine(2, 0, -1, 1));
     assertTrue(ticTacToe.isWinLine(0, 0, 1, 1));
   }
