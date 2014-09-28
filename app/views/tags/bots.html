@@ -1,0 +1,8 @@
+#{if _bots}
+    #{list _bots, as: 'bot'}
+    <div>
+        <input id="${bot.name}-${bot.id}" type="radio" value="${bot.id}" name="${_as ? _as : 'radioValue'}"/>
+        <label for="${bot.name}-${bot.id}">&{bot.name}</label>
+    </div>
+    #{/list}
+#{/if}
