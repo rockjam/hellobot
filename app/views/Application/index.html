@@ -75,6 +75,7 @@
                             }
                             logMirror.doc.setValue(object.firstLog);
                             if (object.state == 'WIN') {
+                                console.log(object.winFields);
                                 $('.result').html(object.message + object.winner);
                             } else {
                                 if (object.state != 'PLAY') {
