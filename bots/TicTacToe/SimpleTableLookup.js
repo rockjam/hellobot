@@ -1,5 +1,6 @@
-﻿//Simplest Strategy – Heuristic Preferences via Table Lookup
+﻿//Простейший бот, который пытается ходить по предпочтительной последователности
 
+//Тут можно объявить глобальные переменные для сохранения данных между ходами.
 var EMPTY = '-';
 var preferredMoves =
     [
@@ -7,10 +8,20 @@ var preferredMoves =
         [0, 1], [1, 0], [1, 2], [2, 1]
     ];
 
+/* Основная функция, которая делает один ход.
+ * Агрументы:
+ * field: двумерный массив ячеек 3х3. Описывает текущее состояние игрового поля
+ *   Значения символов:
+ *    `-` - пустая ячейка
+ *    `x` - ячейка занята крестиком
+ *    `o` - ячейка занята ноликом
+ * my: символ игрока (`x` или `o`)
+ * */
 function makeMove(field, my) {
 
     var i;
     for (i = 0; i < preferredMoves.length; ++i) {
+        //можно пользоваться print для логирования. Лог внизу страницы
         print(i);
         var move = preferredMoves[i];
         if (field[move[0]][move[1]] == EMPTY) {
@@ -18,6 +29,7 @@ function makeMove(field, my) {
         }
     }
 
-    //The field is full. Should not reach here
+    //А еще можно кидать исключения, они тоже будут писать в лог. Но лучше не кидать)
+    //Да прибудет с вами undefined is not a function
     throw new Error("The field is full. I can't move!");
 }
