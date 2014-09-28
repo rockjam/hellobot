@@ -6,9 +6,8 @@ function makeMove(field, my) {
     var moves = [];
     for (i = 0; i < FIELD_SIZE; ++i) {
         for (j = 0; j < FIELD_SIZE; ++j) {
-            var move = [i,j];
-            if (field[move[0]][move[1]] == EMPTY) {
-                moves.add(move);
+            if (field[i][j] == EMPTY) {
+                moves.push([i,j]);
             }
         }
     }

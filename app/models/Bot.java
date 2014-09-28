@@ -24,6 +24,11 @@ public class Bot extends GenericModel {
   @Column(nullable = false)
   private String path;
 
+  public Bot(String name, String path) {
+    this.name = name;
+    this.path = path;
+  }
+
   public Long getId() {
     return id;
   }
