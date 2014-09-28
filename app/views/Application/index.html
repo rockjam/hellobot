@@ -15,9 +15,9 @@
                     value:"function",
                     theme:"lesser-dark",
                     indentUnit:"3",
-                    lineNumbers:"true",
-                    dragDrop:"false"
-
+                    lineNumbers: true,
+                    dragDrop: false,
+                    lineWrapping: true
                 });
                 var logWriter = document.getElementById("log-writer");
                 var logMirror = CodeMirror.fromTextArea(logWriter, {
@@ -95,13 +95,12 @@
 </script>
 <div id="content">
     <div id="leftColumn">
-        <div id="avatar">*{для примера}*
-            <img src="/public/images/avatar/ava2.png" class="avatar"><br/>
-            <center>
-                <div id="rivals-block">#{bots bots: rivals, as: 'rivalId'/}</div>
-            </center>
+        <div class="left" id="cod">
+            <label class="text">Bot name: </label><input type="text" name="bot-name" id="bot-name"/><br/>
+            <label class="text">Bot code:</label>
+            <textarea class="cod" id="code-editor"></textarea><br/>
+            <button id="play-button">Play</button>
         </div>
-
         <div id="field">
             <table id="game-pole">
                 <tr>
@@ -120,17 +119,15 @@
                     <td></td>
                 </tr>
             </table>
-            <div style=" width:100%;clear:both;"></div>
         </div>
-        <div id="gameLog"><textarea placeholder="Нажми Play для старта. Сюда будет выводиться лог" class="log" id="log-writer"></textarea></div>
+        <div style=" width:100%;clear:both;"></div>
+        <div id="gameLog"><textarea class="log" id="log-writer"></textarea></div>
     </div>
     <div id="rightColumn">
-        Имя бота: <input type="text" name="bot-name" id="bot-name"/><br/>
-        Код бота:
-        <textarea class="cod" id="code-editor"></textarea><br/>
-        <button id="play-button">Play</button>
-        <button class="right">Save</button>
+        <div id="avatar">*{для примера}*
+            <img src="/public/images/avatar/ava2.png" class="avatar"><br/>
+            <div id="rivals-block">#{bots bots: rivals, as: 'rivalId'/}</div>
     </div>
+ </div>
     <div style=" width:100%;clear:both;"></div>
-    <div class="result"></div>
 </div>
