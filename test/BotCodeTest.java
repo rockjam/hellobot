@@ -1,16 +1,8 @@
-import gamelogic.tictactoe.Bot;
-import gamelogic.tictactoe.BotCreation;
-import gamelogic.tictactoe.TicTacToe;
+import gamelogic.tictactoe.*;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-
 import java.io.OutputStreamWriter;
-import java.io.StringWriter;
 import java.io.Writer;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -29,7 +21,7 @@ public class BotCodeTest extends Assert {
 
     Writer writer = new OutputStreamWriter(System.out);
     Writer errWriter = new OutputStreamWriter(System.err);
-    Bot bot = BotCreation.createBot("bots/TicTacToe/Minimax.js", writer, errWriter);
+    Strategy bot = StrategyCreation.createBot("bots/TicTacToe/Minimax.js", writer, errWriter);
     assertThat(bot, notNullValue());
 
     int[] move = bot.makeMove(field, "x");
@@ -61,7 +53,7 @@ public class BotCodeTest extends Assert {
     };
     Writer writer = new OutputStreamWriter(System.out);
     Writer errWriter = new OutputStreamWriter(System.err);
-    Bot bot = BotCreation.createBot("bots/TicTacToe/SimpleTableLookup.js", writer, errWriter);
+    Strategy bot = StrategyCreation.createBot("bots/TicTacToe/SimpleTableLookup.js", writer, errWriter);
 
     int[] move = bot.makeMove(field, "x");
     int[] expected = {1, 1};
