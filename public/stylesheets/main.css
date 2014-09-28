@@ -234,14 +234,14 @@ input[type=radio]:checked + label {
     display: block;
     margin: 10% auto;
     padding: 20px;
-    width: 500px;
+    width: 410px;
     z-index: 9999;
     opacity: 0;
-    -webkit-transition: 0.4s;
-    -moz-transition: 0.4s;
-    -ms-transition: 0.4s;
-    -o-transition: 0.4s;
-    transition: 0.4s;
+    -webkit-transition: 0.2s;
+    -moz-transition: 0.2s;
+    -ms-transition: 0.2s;
+    -o-transition: 0.2s;
+    transition: 0.2s;
 }
 .animation {
     -webkit-transform:  scale(0.5);
@@ -258,7 +258,8 @@ input[type=radio]:checked + label {
 }
 .close {
     display: block;
-    cursor: pointer
+    cursor: pointer;
     float: right;
     margin-bottom: 10px;
+    margin: -10px;
 }
