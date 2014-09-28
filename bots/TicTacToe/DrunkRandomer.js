@@ -1,5 +1,3 @@
-//Simplest Strategy – Heuristic Preferences via Table Lookup
-
 var EMPTY = '-';
 var FIELD_SIZE = 3;
 
