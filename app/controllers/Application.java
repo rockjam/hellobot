@@ -22,7 +22,7 @@ public class Application extends Controller {
   }
 
   public static void prepareGame(Bot bot, String sourceCode) {
-    String path = bot.getPath() != null ? bot.getPath() : String.format("bots%sTicTacToe%s%s.js", File.separator, File.separator, bot.getName());
+    String path = bot.getPath() != null ? bot.getPath() : String.format("bots%sTicTacToe%s%s-%d.js", File.separator, File.separator, bot.getName(), System.currentTimeMillis());
     try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(path))) {
       BufferedWriter out = new BufferedWriter(writer);
       out.write(sourceCode);
