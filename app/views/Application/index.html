@@ -97,7 +97,9 @@
                             }
                         }
                     }).fail(function (e) {
-                        showResult ();
+                        $('.modal-window').fadeIn(function () {
+                            $('.window-container').addClass('visible');
+                        });
                         $('.result').html(e.error);
                     });
                 });
