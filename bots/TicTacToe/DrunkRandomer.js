@@ -15,6 +15,6 @@ function makeMove(field, my) {
     if(moves.length == 0)
         throw new Error("The field is full. I can't move!");
 
-    var choise = Math.floor((Math.random() * (moves.length-1)) + 1);
-    return moves[choise];
+    var choice = Math.floor((Math.random() * (moves.length-1)) + 1);
+    return moves[choice];
 }
