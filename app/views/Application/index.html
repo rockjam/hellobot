@@ -94,24 +94,25 @@
                                 $($(table.rows[object.winFields[0][0]].cells[object.winFields[0][1]]).children()).addClass("winner");
                                 $($(table.rows[object.winFields[1][0]].cells[object.winFields[1][1]]).children()).addClass("winner");
                                 $($(table.rows[object.winFields[2][0]].cells[object.winFields[2][1]]).children()).addClass("winner");
-                                showResult ();
+                                setTimeout(function() { showResult (); }, 1000);
                                 $('.result').html(object.message + object.winner);
                             } else {
                                 if (object.state != 'PLAY') {
-                                    showResult ();
+                                    setTimeout(function() { showResult (); }, 1000);
+                                    /*    showResult ();*/
                                     $('.result').html(object.message);
                                 }
                             }
                         }
                     }).fail(function (e) {
-                        $('.modal-window').fadeIn(function () {
+                        setTimeout(function() {
+                            $('.modal-window').fadeIn(function () {
                             $('.window-container').addClass('visible');
-                        });
+                        }); }, 1000);
+
                         $('.result').html(e.error);
                     });
                 });
-
-
             }
     );
 
