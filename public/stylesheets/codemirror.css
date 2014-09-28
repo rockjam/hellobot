@@ -5,6 +5,12 @@
   font-family: monospace;
   height: 100%;
 }
+
+.CodeMirror.cm-s-lesser-dark.CodeMirror-wrap {
+    height: 450px;
+    width: 350px;
+}
+
 .CodeMirror-scroll {
   /* Set scrolling behaviour here */
   overflow: auto;
