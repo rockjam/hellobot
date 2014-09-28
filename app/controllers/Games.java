@@ -25,7 +25,7 @@ public class Games extends WebSocketController {
     do {
       state = game.step();
       try {
-        Thread.sleep(600L);
+        Thread.sleep(1200L);
       } catch (InterruptedException e) {
         e.printStackTrace();
       }

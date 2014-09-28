@@ -13,28 +13,40 @@
     <audio preload="true" id="game-over">
         <source src="@{'/public/audio/game-over.mp3'}"/>
     </audio>
+    <audio preload="true" id="xo1">
+        <source src="@{'/public/audio/xo1.mp3'}"/>
+    </audio>
+    <audio preload="true" id="xo2">
+        <source src="@{'/public/audio/xo2.mp3'}"/>
+    </audio>
+    <audio preload="true" id="xo3">
+        <source src="@{'/public/audio/xo3.mp3'}"/>
+    </audio>
+    <audio preload="true" id="xo4">
+        <source src="@{'/public/audio/xo4.mp3'}"/>
+    </audio>
     <script>
-        $(function(){
-            $("#register").click(function() {
+        $(function () {
+            $("#register").click(function () {
                 $.get(
                         "@@{Application.registration()}",
                         {},
-                        function(e) {
+                        function (e) {
                             $("article").html(e);
                         });
                 return false;
             });
 
-            $("#login").click(function() {
+            $("#login").click(function () {
                 $.get(
                         "@@{Application.login()}",
                         {},
-                        function(e) {
+                        function (e) {
                             $("article").html(e);
                         });
                 return false;
             });
-            });
+        });
     </script>
     <script src="@{'/public/javascripts/codemirror/codemirror.js'}" type="text/javascript"></script>
     <link rel="stylesheet" href="@{'/public/stylesheets/codemirror.css'}">
@@ -53,7 +65,8 @@
                 <img src="/public/images/slider/slide_5.png" width="900" height="480" alt="Slide 5">
             </div>
         </div>
-        <div class="login-register"><a href="@{Application.login()}" id="login">Вход</a>/<a id="register" href="@{Application.registration()}">регистрация</a></div>
+        <div class="login-register"><a href="@{Application.login()}" id="login">Вход</a>/<a id="register" href="@{Application.registration()}">регистрация</a>
+        </div>
     </header>
     <nav>
 

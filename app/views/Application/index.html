@@ -12,31 +12,42 @@
     $(function () {
                 var codeEditor = document.getElementById("code-editor");
                 var codeMirror = CodeMirror.fromTextArea(codeEditor, {
-                    value:"function",
-                    theme:"lesser-dark",
-                    indentUnit:"3",
-                    lineNumbers:"true",
-                    dragDrop:"false"
+                    value: "function",
+                    theme: "lesser-dark",
+                    indentUnit: "3",
+                    lineNumbers: "true",
+                    dragDrop: "false"
 
                 });
                 var logWriter = document.getElementById("log-writer");
                 var logMirror = CodeMirror.fromTextArea(logWriter, {
-                    value:"function",
-                    theme:"lesser-dark",
-                    indentUnit:"3",
-                    dragDrop:"false",
-                    readOnly:"true"
+                    value: "function",
+                    theme: "lesser-dark",
+                    indentUnit: "3",
+                    dragDrop: "false",
+                    readOnly: "true"
                 });
 
                 //myCodeMirror.doc.getValue()
                 //myCodeMirror.doc.setValue("hello")
 
-                var gameOverSound = document.getElementById("game-over");
 
-                function playGameOverSound() {
-                    gameOverSound.pause();
-                    gameOverSound.currentTime = 0;
-                    gameOverSound.play();
+                function playSound(id) {
+                    var gameOverSound = {
+                        "0": document.getElementById("game-over"),
+                        "1": document.getElementById("xo1"),
+                        "2": document.getElementById("xo2"),
+                        "3": document.getElementById("xo3"),
+                        "4": document.getElementById("xo4")
+                    };
+
+                    gameOverSound[id].pause();
+                    gameOverSound[id].currentTime = 0;
+                    gameOverSound[id].play();
+                }
+
+                function getRandomArbitary(min, max) {
+                    return Math.round(Math.random() * (max - min) + min);
                 }
 
                 var botId;
@@ -81,14 +92,19 @@
                                     table.rows[i].cells[j].appendChild(myImage);
                                 }
                             }
+                            playSound(getRandomArbitary(1, 4));
                             logMirror.doc.setValue(object.firstLog);
                             if (object.state == 'WIN') {
                                 $('.result').html(object.message + object.winner);
-                                playGameOverSound();
+                                setTimeout(function () {
+                                    playSound(0);
+                                }, 500);
                             } else {
                                 if (object.state != 'PLAY') {
                                     $('.result').html(object.message);
-                                    playGameOverSound();
+                                    setTimeout(function () {
+                                        playSound(0);
+                                    }, 600);
                                 }
                             }
                         }
@@ -140,4 +156,4 @@
         <button class="right">Save</button>
     </div>
     <div style=" width:100%;clear:both;"></div>
-    </div>
+</div>
